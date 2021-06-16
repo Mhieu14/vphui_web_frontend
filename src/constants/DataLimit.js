@@ -11,3 +11,5 @@ export const PEOPLE_PAGE_USERS_LIMIT = 15;
 export const NOTIFICATIONS_PAGE_NOTIFICATION_LIMIT = 50;
 
 export const PROFILE_PAGE_POSTS_LIMIT = 6;
+
+export const TEAMS_LIMIT = 20;

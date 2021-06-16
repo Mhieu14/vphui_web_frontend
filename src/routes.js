@@ -13,6 +13,11 @@ export const USER_PROFILE = '/:username';
 export const EXPLORE = '/explore';
 
 export const PEOPLE = '/people';
+export const TEAMS = '/teams';
+export const STADIUMS = '/stadiums';
+export const MATCHUPHOME = '/matchup';
+export const TEAM_PROFILE = '/team-profile'
+export const san1 = 'https://www.google.com/maps'
 
 export const NOTIFICATIONS = '/notifications';
 

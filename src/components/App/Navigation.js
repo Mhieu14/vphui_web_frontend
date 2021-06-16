@@ -57,7 +57,12 @@ const Navigation = () => {
           <Name>Home</Name>
         </ListItem>
       </Link>
-
+      <Link exact activeClassName="selected" to={Routes.MATCHUPHOME}>
+        <ListItem>
+          <HomeIcon />
+          <Name>Match up Menu</Name>
+        </ListItem>
+      </Link>
       <Link exact activeClassName="selected" to={Routes.EXPLORE}>
         <ListItem>
           <ExploreIcon width={20} />
@@ -71,6 +76,7 @@ const Navigation = () => {
           <Name>People</Name>
         </ListItem>
       </Link>
+      
 
       <Link exact activeClassName="selected" to={Routes.NOTIFICATIONS}>
         <ListItem>
@@ -83,6 +89,19 @@ const Navigation = () => {
         <ListItem>
           <EnvelopeIcon width={18} />
           <Name>Messages</Name>
+        </ListItem>
+      </Link>
+      
+      <Link exact activeClassName="selected" to={Routes.TEAMS}>
+        <ListItem>
+          <PeopleIcon />
+          <Name>Team</Name>
+        </ListItem>
+      </Link>
+      <Link exact activeClassName="selected" to={Routes.STADIUMS}>
+        <ListItem>
+          <PeopleIcon />
+          <Name>Stadiums</Name>
         </ListItem>
       </Link>
     </List>

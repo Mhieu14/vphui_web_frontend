@@ -10,9 +10,12 @@ import SideBar from './SideBar';
 import UserSuggestions from './UserSuggestions';
 
 import Home from 'pages/Home';
+import MatchupHome from 'pages/Matchup';
 import Profile from 'pages/Profile';
 import Explore from 'pages/Explore';
 import People from 'pages/People';
+import Teams from 'pages/Teams';
+import Stadiums from 'pages/Stadiums';
 import Notifications from 'pages/Notifications';
 import Post from 'pages/Post';
 import Messages from 'pages/Messages';
@@ -88,10 +91,13 @@ const AppLayout = ({ location, authUser }) => {
 
         <Switch>
           <Route exact path={Routes.HOME} component={Home} />
+          <Route exact path={Routes.MATCHUPHOME} component={MatchupHome} />
 
           <Route exact path={Routes.EXPLORE} component={Explore} />
 
           <Route exact path={Routes.PEOPLE} component={People} />
+          <Route exact path={Routes.TEAMS} component={Teams} />
+          <Route exact path={Routes.STADIUMS} component={Stadiums} />
 
           <Route exact path={Routes.NOTIFICATIONS} component={Notifications} />
 
