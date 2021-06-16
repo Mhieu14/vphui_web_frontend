@@ -8,13 +8,8 @@ import Empty from 'components/Empty';
 import InfiniteScroll from 'components/InfiniteScroll';
 import Head from 'components/Head';
 import TeamsCard from './TeamCards';
+import { GET_AUTH_USER } from 'graphql/user';
 
-
-
-
-import { PEOPLE_PAGE_USERS_LIMIT } from 'constants/DataLimit';
-
-import { useStore } from 'store';
 
 
 
@@ -43,16 +38,32 @@ const Teams = () => {
   useEffect( () => {
     getTeams()
   }, [teams])
-
+  const token = localStorage.getItem('token');
+  
   // let [userid, setUserid] = useState('')
   let [teams, setTeams] = useState([])
+  // const getUserId = () => {
+  //   axios({method: "get",
+  //   url: "",
+  //   headers: { "Authorization": `${token}`
+  //   }})
+  // .then(res => {
+  //   setTeams(res.data.data);
+  // })
+  // const { userid } = useQuery(GET_AUTH_USER, {
+  //   variables: {id}
+  // });
+  const {id} = useQuery(GET_AUTH_USER);
   const getTeams = () => {
-    axios.get('http://localhost:3001/api/team/getListTeamsUser?user_id=60c46846688c382909020817')
+    axios({method: "get",
+    url: `http://localhost:3001/api/team/getListTeamsUser?user_id=${id}`,
+    headers: { "Authorization": `${token}`
+    }})
   .then(res => {
-    setTeams(res.data);
+    setTeams(res.data.data);
   })
   }
-  console.log(teams)
+  
   const renderContent = () => {
   
     if (!teams.length > 0) return <Empty text="No Team yet." />
@@ -78,7 +89,7 @@ const Teams = () => {
             <Fragment>
               <TeamsContainer>
                 {data.map((team) => (
-                  <TeamsCard key={team.id} team={teams} />
+                  <TeamsCard key={team.id} team={team.fullname} role = {team.role} />
                 ))}
               </TeamsContainer>
 

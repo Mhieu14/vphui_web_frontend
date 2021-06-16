@@ -8,7 +8,7 @@ import { Spacing } from 'components/Layout';
 
 import theme from 'theme';
 
-import * as Routes from 'routes';
+
 
 const Root = styled.div`
   width: 100%;
@@ -61,10 +61,12 @@ const UserName = styled.span`
 /**
  * Card component for rendering team info, meant to be used in Teams page
  */
-const TeamsCard = ({ team, role }) => {
+const StadiumsCard = ({ description, time_start, teamname }) => {
   const [color, setColor] = useState('');
 
   
+ 
+
 
   useEffect(() => {
     const { primary, secondary, success, error } = theme.colors;
@@ -73,22 +75,35 @@ const TeamsCard = ({ team, role }) => {
     setColor(colors[randomColor]);
   }, []);
 
-  
+  // const splitFullStadiumsName = () => {
+  //   // If a fullName contains more word than two, take first two word
+  //   const splitWords = name.split(' ').slice(0, 2).join(' ');
+
+  //   // Take only first letters from split words
+  //   const firstLetters = splitWords
+  //     .split(' ')
+  //     .map((a) => a.charAt(0))
+  //     .join(' ');
+
+  //   return firstLetters;
+  // };
+
   return (
     <Root>
-      
+     
 
       <Spacing top="sm" bottom="xs">
-        <A >
-          <FullName>{team}</FullName>
+       
+        <A>
+          <FullName>{description}</FullName>
+        </A>
+        <A>
+          <FullName>{teamname}</FullName>
+        </A>
+        <A>
+          <FullName>{time_start}</FullName>
         </A>
       </Spacing>
-      <Spacing top="sm" bottom="xs">
-        <A >
-          <FullName>Vai trò: {role}</FullName>
-        </A>
-      </Spacing>
-     
 
       
 
@@ -99,8 +114,8 @@ const TeamsCard = ({ team, role }) => {
   );
 };
 
-TeamsCard.propTypes = {
+StadiumsCard.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default TeamsCard;
+export default StadiumsCard;

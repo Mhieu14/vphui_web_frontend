@@ -75,33 +75,14 @@ const CreateMatchup = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [time_start, setTimestart] = useState('');
   const [teamname, setTeamName] = useState('')
-  
-  // const [createPost, { loading }] = useMutation(CREATE_POST, {
-  //   refetchQueries: [
-  //     {
-  //       query: GET_FOLLOWED_POSTS,
-  //       variables: {
-  //         userId: auth.user.id,
-  //         skip: 0,
-  //         limit: HOME_PAGE_POSTS_LIMIT,
-  //       },
-  //     },
-  //     { query: GET_AUTH_USER },
-  //     {
-  //       query: GET_USER_POSTS,
-  //       variables: {
-  //         username: auth.user.username,
-  //         skip: 0,
-  //         limit: PROFILE_PAGE_POSTS_LIMIT,
-  //       },
-  //     },
-  //   ],
-  // });
 
   const handleReset = () => {
     
     setIsFocused(false);
-   
+    setDescription('');
+    setStadiumid('');
+    setTeamName('');
+    setTimestart('');
   };
 
   const handleOnFocus = () => setIsFocused(true);
@@ -117,19 +98,22 @@ const CreateMatchup = () => {
       stadium_id,
       teamname
     };
-   let datanew = JSON.stringify(data)
-    try{axios({
+    try {
+      const result = await axios({
       method: "post",
       url: "http://localhost:3001/api/matchup/create",
-      data: {datanew},
-      headers: { "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYzQ2ODQ2Njg4YzM4MjkwOTAyMDgxNyIsImZ1bGxOYW1lIjoiQnVpIE1pbmggSGlldSIsImVtYWlsIjoiYnVpbWluaGhpZXVubzVAZ21haWwuY29tIiwiaWF0IjoxNjIzODIxMzEwLCJleHAiOjE2NTUzNzg5MTB9.zycct5P4s3yHhQaPL2Kd9UBi60jTSfDRdGrlBC_SjXI","Content-Type" : "application/json; charset=utf-8"
-     },
-    })} catch(error) {
+      data: data,
+      headers: { "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYzQ2ODQ2Njg4YzM4MjkwOTAyMDgxNyIsImZ1bGxOYW1lIjoiQnVpIE1pbmggSGlldSIsImVtYWlsIjoiYnVpbWluaGhpZXVubzVAZ21haWwuY29tIiwiaWF0IjoxNjIzODIxMzEwLCJleHAiOjE2NTUzNzg5MTB9.zycct5P4s3yHhQaPL2Kd9UBi60jTSfDRdGrlBC_SjXI", "Content-Type" : "application/json"
+      },
+      })
+      handleReset();
+      console.log(result);
+    } catch(error) {
       console.log(error)
     }
       
       
-      console.log(datanew)
+      console.log(data)
   };
   const isShareDisabled = !stadium_id || !teamname || !time_start || !description;
 

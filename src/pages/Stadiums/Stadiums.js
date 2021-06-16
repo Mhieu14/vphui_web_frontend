@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import axios from 'axios'
 import { Container } from 'components/Layout';
-import { useQuery } from '@apollo/client';
 import Empty from 'components/Empty';
 import InfiniteScroll from 'components/InfiniteScroll';
 import Head from 'components/Head';

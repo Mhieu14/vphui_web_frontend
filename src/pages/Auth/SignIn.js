@@ -67,6 +67,7 @@ const SignIn = ({ history, location, refetch }) => {
         variables: { input: { emailOrUsername, password } },
       });
       localStorage.setItem('token', response.data.signin.token);
+      console.log(response)
       await refetch();
       history.push(Routes.HOME);
     } catch (error) {

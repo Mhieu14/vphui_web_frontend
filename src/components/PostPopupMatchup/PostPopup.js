@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/client';
-
+import { useState, useEffect } from 'react' 
 import { Loading } from 'components/Loading';
 import { CloseIcon } from 'components/icons';
 import CreateComment from 'components/CreateComment';
@@ -13,8 +13,10 @@ import Head from 'components/Head';
 import PostPopupInfo from './PostPopupInfo';
 import PostPopupComments from './PostPopupComments';
 import PostPopupOptions from './PostPopupOptions';
+import axios from 'axios';
 
-import { GET_POST } from 'graphql/post';
+
+import { authInitialState } from 'store/auth';
 
 const Root = styled.div`
   margin: 0 auto;
@@ -100,18 +102,26 @@ const Title = styled.div`
  * Meant to be used in Modal or Page component
  */
 const PostPopup = ({ id, closeModal, usedInModal }) => {
-  const { data, loading, error } = useQuery(GET_POST, {
-    variables: { id },
-  });
+  
+  const [allMatchup, setAllMatchup] = useState([])
+  useEffect( () => {
+    getAllMatchup()
+  }, [allMatchup])
 
-  if (loading) return <Loading top="lg" />;
-  if (error) return <NotFound />;
-
-  const post = data.getPost;
+      const getAllMatchup = () =>{axios({
+        method: "get",
+        url: "http://localhost:3001/api/matchup/getAll",
+        headers: { "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYzQ2ODQ2Njg4YzM4MjkwOTAyMDgxNyIsImZ1bGxOYW1lIjoiQnVpIE1pbmggSGlldSIsImVtYWlsIjoiYnVpbWluaGhpZXVubzVAZ21haWwuY29tIiwiaWF0IjoxNjIzODIxMzEwLCJleHAiOjE2NTUzNzg5MTB9.zycct5P4s3yHhQaPL2Kd9UBi60jTSfDRdGrlBC_SjXI"
+        }
+        }).then(res => {
+          setAllMatchup(res.data)
+        })}
+      
+      
 
   return (
     <Root usedInModal={usedInModal}>
-      <Head title={post.title ? post.title : `${post.author.username}'s post`} />
+      <Head title={allMatchup.description ? allMatchup.description : `${allMatchup.description}'s post`} />
 
       {closeModal && (
         <CloseModal onClick={closeModal}>
@@ -120,28 +130,21 @@ const PostPopup = ({ id, closeModal, usedInModal }) => {
       )}
 
       <Container usedInModal={usedInModal}>
-        <Left usedInModal={usedInModal}>
-          <Image src={post.image} usedInModal={usedInModal} />
-        </Left>
+        
 
         <Right usedInModal={usedInModal}>
           <Spacing>
-            <PostPopupInfo author={post.author} />
+            <PostPopupInfo author={authInitialState.stadium.name} />
 
-            {post.title && <Title>{post.title}</Title>}
+            {allMatchup.description && <Title>{allMatchup.description}</Title>}
 
-            <PostPopupComments
-              usedInModal={usedInModal}
-              comments={post.comments}
-              postId={post.id}
-              postAuthor={post.author}
-            />
+            
           </Spacing>
 
           <Spacing>
-            <PostPopupOptions postId={post.id} postAuthor={post.author} postLikes={post.likes} />
+            <PostPopupOptions postId={allMatchup._id} />
 
-            <CreateComment post={post} />
+            
           </Spacing>
         </Right>
       </Container>

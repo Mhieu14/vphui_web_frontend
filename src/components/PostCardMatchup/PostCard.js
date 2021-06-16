@@ -116,69 +116,18 @@ const CommentLine = styled.div`
  * Component for rendering user post
  */
 
-const PostCard = ({ author, imagePublicId, comments, title, createdAt, image, likes, postId, openModal }) => {
-  useEffect( () => {
-    getStadiums()
-  }, [])
+const PostCard = ({ teamname,time_start,description,name,author, createdAt}) => {
+ 
 
-  // let [userid, setUserid] = useState('')
-  let [stadiums, setStadiums] = useState([])
-  const getStadiums = () => {
-    axios.get('http://localhost:3001/api/stadium/getAll')
-  .then(res => {
-    setStadiums(res.data.data);
-  })
-  }
-  console.log(stadiums)
-  const [{ auth }] = useStore();
-  const client = useApolloClient();
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [isOptionOpen, setIsOptionOpen] = useState(false);
 
-  const toggleCreateComment = () => {
-    setIsCommentOpen(true);
-  };
 
-  const toggleComment = () => {
-    setIsCommentOpen(!isCommentOpen);
-  };
-
-  const closeOption = () => setIsOptionOpen(false);
 
   const openOption = () => setIsOptionOpen(true);
 
-  // const deletePost = async () => {
-  //   try {
-  //     await client.mutate({
-  //       mutation: DELETE_POST,
-  //       variables: { input: { id: postId, imagePublicId } },
-  //       refetchQueries: () => [
-  //         {
-  //           query: GET_FOLLOWED_POSTS,
-  //           variables: {
-  //             userId: auth.user.id,
-  //             skip: 0,
-  //             limit: HOME_PAGE_POSTS_LIMIT,
-  //           },
-  //         },
-  //         { query: GET_AUTH_USER },
-  //         {
-  //           query: GET_USER_POSTS,
-  //           variables: {
-  //             username: auth.user.username,
-  //             skip: 0,
-  //             limit: PROFILE_PAGE_POSTS_LIMIT,
-  //           },
-  //         },
-  //       ],
-  //     });
-  //   } catch (err) {}
-
-  //   setIsOptionOpen(false);
-  // };
-
   return (
-    <>
+    
       <Root>
         
         <TopRow>
@@ -202,13 +151,28 @@ const PostCard = ({ author, imagePublicId, comments, title, createdAt, image, li
 
         <Spacing left="sm" bottom="sm" top="xs" right="sm">
           <Title>
-            <H3>{title}</H3>
+            <H3>{description}</H3>
+          </Title>
+        </Spacing>
+        <Spacing left="sm" bottom="sm" top="xs" right="sm">
+          <Title>
+            <H3>{teamname}</H3>
+          </Title>
+        </Spacing>
+        <Spacing left="sm" bottom="sm" top="xs" right="sm">
+          <Title>
+            <H3>{name}</H3>
+          </Title>
+        </Spacing>
+        <Spacing left="sm" bottom="sm" top="xs" right="sm">
+          <Title>
+            <H3>{time_start}</H3>
           </Title>
         </Spacing>
 
-        {image && <Poster src={image} onClick={openModal} />}
+        
 
-        <BottomRow>
+        {/* <BottomRow>
           <CountAndIcons>
             <Count>
               {likes.length} likes
@@ -243,9 +207,9 @@ const PostCard = ({ author, imagePublicId, comments, title, createdAt, image, li
               </Comments>
             </>
           )}
-        </BottomRow>
+        </BottomRow> */}
       </Root>
-    </>
+    
   );
 };
 
