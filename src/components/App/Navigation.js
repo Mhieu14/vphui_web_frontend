@@ -1,10 +1,10 @@
+import { EnvelopeIcon, ExploreIcon, HomeIcon, NotificationIcon, PeopleIcon } from 'components/icons';
 import React from 'react';
-import { NavLink, generatePath } from 'react-router-dom';
+import { generatePath, NavLink } from 'react-router-dom';
+import * as Routes from 'routes';
 import styled from 'styled-components';
 
-import * as Routes from 'routes';
 
-import { ExploreIcon, NotificationIcon, HomeIcon, PeopleIcon, EnvelopeIcon } from 'components/icons';
 
 const Link = styled(NavLink)`
   text-decoration: none;
@@ -57,12 +57,12 @@ const Navigation = () => {
           <Name>Home</Name>
         </ListItem>
       </Link>
-      <Link exact activeClassName="selected" to={Routes.MATCHUPHOME}>
+      {/* <Link exact activeClassName="selected" to={Routes.MATCHUPHOME}>
         <ListItem>
           <HomeIcon />
           <Name>Match up Menu</Name>
         </ListItem>
-      </Link>
+      </Link> */}
       <Link exact activeClassName="selected" to={Routes.EXPLORE}>
         <ListItem>
           <ExploreIcon width={20} />
@@ -92,7 +92,7 @@ const Navigation = () => {
         </ListItem>
       </Link>
       
-      <Link exact activeClassName="selected" to={Routes.TEAMS}>
+      {/* <Link exact activeClassName="selected" to={Routes.TEAMS}>
         <ListItem>
           <PeopleIcon />
           <Name>Team</Name>
@@ -103,7 +103,7 @@ const Navigation = () => {
           <PeopleIcon />
           <Name>Stadiums</Name>
         </ListItem>
-      </Link>
+      </Link> */}
     </List>
   );
 };
