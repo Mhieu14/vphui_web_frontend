@@ -1,25 +1,25 @@
-import React, { useState, Fragment } from 'react';
-import styled from 'styled-components';
-import { generatePath } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-
-import { Container } from 'components/Layout';
-import ExploreCard from './ExploreCard';
-import Skeleton from 'components/Skeleton';
-import PostPopup from 'components/PostPopup';
-import Modal from 'components/Modal';
-import InfiniteScroll from 'components/InfiniteScroll';
 import Empty from 'components/Empty';
-import { Loading } from 'components/Loading';
 import Head from 'components/Head';
-
-import { GET_POSTS } from 'graphql/post';
-
+import InfiniteScroll from 'components/InfiniteScroll';
+import { Container } from 'components/Layout';
+import { Loading } from 'components/Loading';
+import Modal from 'components/Modal';
+import PostPopup from 'components/PostPopup';
+import Skeleton from 'components/Skeleton';
 import { EXPLORE_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
-
-import { useStore } from 'store';
-
+import { GET_POSTS } from 'graphql/post';
+import React, { Fragment, useState } from 'react';
+import { generatePath } from 'react-router-dom';
 import * as Routes from 'routes';
+import { useStore } from 'store';
+import styled from 'styled-components';
+import ExploreCard from './ExploreCard';
+
+
+
+
+
 
 const Root = styled(Container)`
   margin-top: ${(p) => p.theme.spacing.lg};
@@ -73,7 +73,7 @@ const Explore = () => {
     }
 
     const { posts, count } = data.getPosts;
-    if (!posts.length > 0) return <Empty text="No posts yet." />;
+    if (!posts.length > 0) return <Empty text="Chưa có hoạt động." />;
 
     return (
       <InfiniteScroll

@@ -1,14 +1,14 @@
-import React from 'react';
+import Follow from 'components/Follow';
+import { Button } from 'components/Form';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { generatePath } from 'react-router-dom';
+import * as Routes from 'routes';
+import { useStore } from 'store';
 import styled from 'styled-components';
 
-import { Button } from 'components/Form';
-import Follow from 'components/Follow';
 
-import { useStore } from 'store';
 
-import * as Routes from 'routes';
 
 const Root = styled.div`
   display: flex;

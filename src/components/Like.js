@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
-
 import { LikeIcon } from 'components/icons';
-import { Spacing } from './Layout';
-import { Button } from './Form';
-
+import { NotificationType } from 'constants/NotificationType';
+import { CREATE_LIKE, DELETE_LIKE } from 'graphql/like';
 import { GET_FOLLOWED_POSTS, GET_POSTS } from 'graphql/post';
 import { GET_AUTH_USER } from 'graphql/user';
-import { CREATE_LIKE, DELETE_LIKE } from 'graphql/like';
-
-import { NotificationType } from 'constants/NotificationType';
-
 import { useNotifications } from 'hooks/useNotifications';
-
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { useStore } from 'store';
+import styled from 'styled-components';
+import { Button } from './Form';
+import { Spacing } from './Layout';
+
+
+
+
+
 
 const StyledButton = styled(Button)`
   padding: ${(p) => p.theme.spacing.xs} 0;
@@ -77,7 +77,7 @@ const Like = ({ postId, user, likes, withText, fullWidth }) => {
     >
       <LikeIcon color={hasLiked && 'primary.main'} />
       <Spacing inline left="xxs" />
-      {withText && <b>Like</b>}
+      {withText && <b>Yêu thích</b>}
     </StyledButton>
   );
 };

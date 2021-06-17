@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { NavLink, generatePath } from 'react-router-dom';
-
 import Avatar from 'components/Avatar';
 import { A } from 'components/Text';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import { generatePath, NavLink } from 'react-router-dom';
+import * as Routes from 'routes';
+import styled from 'styled-components';
 import { timeAgo } from 'utils/date';
 
-import * as Routes from 'routes';
+
+
 
 const Root = styled.div`
   position: absolute;
@@ -94,7 +94,7 @@ const HeaderMessageDropdown = ({ messageRef, dropdownData }) => {
   return (
     <Root ref={messageRef}>
       <Heading>
-        <Link to={generatePath(Routes.MESSAGES, { userId: Routes.NEW_ID_VALUE })}>New Message</Link>
+        <Link to={generatePath(Routes.MESSAGES, { userId: Routes.NEW_ID_VALUE })}>Tin nhắn mới</Link>
       </Heading>
 
       {dropdownData.map((user) => (

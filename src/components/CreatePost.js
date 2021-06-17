@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import Avatar from 'components/Avatar';
+import { Button } from 'components/Form';
+import { Container, Overlay, Spacing } from 'components/Layout';
+import { Error } from 'components/Text';
+import { HOME_PAGE_POSTS_LIMIT, PROFILE_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
+import { MAX_POST_IMAGE_SIZE } from 'constants/ImageSize';
+import { CREATE_POST, GET_FOLLOWED_POSTS } from 'graphql/post';
+import { GET_AUTH_USER, GET_USER_POSTS } from 'graphql/user';
+import { useGlobalMessage } from 'hooks/useGlobalMessage';
+import PostImageUpload from 'pages/Home/PostImageUpload';
+import React, { useState } from 'react';
+import { useStore } from 'store';
 import styled from 'styled-components';
 
-import { Spacing, Overlay, Container } from 'components/Layout';
-import { Error } from 'components/Text';
-import { Button } from 'components/Form';
-import Avatar from 'components/Avatar';
 
-import PostImageUpload from 'pages/Home/PostImageUpload';
 
-import { GET_FOLLOWED_POSTS, CREATE_POST } from 'graphql/post';
-import { GET_AUTH_USER, GET_USER_POSTS } from 'graphql/user';
 
-import { useStore } from 'store';
 
-import { PROFILE_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
-import { HOME_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
-import { MAX_POST_IMAGE_SIZE } from 'constants/ImageSize';
 
-import { useGlobalMessage } from 'hooks/useGlobalMessage';
 
 const Root = styled(Container)`
   border: 0;
@@ -165,7 +164,7 @@ const CreatePost = () => {
               value={title}
               onFocus={handleOnFocus}
               onChange={handleTitleChange}
-              placeholder="Add a post"
+              placeholder="Đăng hoạt động"
             />
 
             {!isFocused && <PostImageUpload handleChange={handlePostImageUpload} />}
@@ -185,10 +184,10 @@ const CreatePost = () => {
 
               <Buttons>
                 <Button text type="button" onClick={handleReset}>
-                  Cancel
+                  Hủy
                 </Button>
                 <Button disabled={isShareDisabled} type="submit">
-                  Share
+                  Đăng hoạt động
                 </Button>
               </Buttons>
             </Options>

@@ -1,17 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { generatePath, withRouter, Link } from 'react-router-dom';
 import { useSubscription } from '@apollo/client';
-
-import Search from 'components/Search';
 import Avatar from 'components/Avatar';
-
+import Search from 'components/Search';
 import { IS_USER_ONLINE_SUBSCRIPTION } from 'graphql/user';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import { generatePath, Link, withRouter } from 'react-router-dom';
 import * as Routes from 'routes';
-
 import { useStore } from 'store';
+import styled from 'styled-components';
+
+
+
+
 
 const Root = styled.div`
   position: relative;
@@ -94,13 +94,13 @@ const MessagesChatHeading = ({ location, match, chatUser }) => {
     return (
       <Root>
         <InputContainer>
-          <To>To:</To>
+          <To>Đến:</To>
           <Search
             location={location}
             backgroundColor="white"
             hideIcon
             forMessage
-            placeholder="Type the name of a person"
+            placeholder="Nhập Tên hoặc Tên đăng nhập"
             autoFocus
           />
         </InputContainer>

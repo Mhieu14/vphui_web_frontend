@@ -54,7 +54,7 @@ const Navigation = () => {
       <Link exact activeClassName="selected" to={Routes.HOME}>
         <ListItem>
           <HomeIcon />
-          <Name>Home</Name>
+          <Name>Trang chủ</Name>
         </ListItem>
       </Link>
       {/* <Link exact activeClassName="selected" to={Routes.MATCHUPHOME}>
@@ -66,14 +66,14 @@ const Navigation = () => {
       <Link exact activeClassName="selected" to={Routes.EXPLORE}>
         <ListItem>
           <ExploreIcon width={20} />
-          <Name>Explore</Name>
+          <Name>Khám phá</Name>
         </ListItem>
       </Link>
 
       <Link exact activeClassName="selected" to={Routes.PEOPLE}>
         <ListItem>
           <PeopleIcon />
-          <Name>People</Name>
+          <Name>Mọi người</Name>
         </ListItem>
       </Link>
       
@@ -81,14 +81,14 @@ const Navigation = () => {
       <Link exact activeClassName="selected" to={Routes.NOTIFICATIONS}>
         <ListItem>
           <NotificationIcon width={18} />
-          <Name>Notifications</Name>
+          <Name>Thông báo</Name>
         </ListItem>
       </Link>
 
       <Link exact activeClassName="selected" to={generatePath(Routes.MESSAGES, { userId: Routes.NEW_ID_VALUE })}>
         <ListItem>
           <EnvelopeIcon width={18} />
-          <Name>Messages</Name>
+          <Name>Tin nhắn</Name>
         </ListItem>
       </Link>
       

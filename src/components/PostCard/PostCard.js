@@ -1,31 +1,30 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { generatePath } from 'react-router-dom';
-import styled from 'styled-components';
 import { useApolloClient } from '@apollo/client';
-
+import Avatar from 'components/Avatar';
 import Comment from 'components/Comment';
 import CreateComment from 'components/CreateComment';
-import Like from 'components/Like';
+import { Button } from 'components/Form';
 import { DotsIcon, PostCommentIcon } from 'components/icons';
 import { Spacing } from 'components/Layout';
-import { A, H3 } from 'components/Text';
-import { Button } from 'components/Form';
-import PostCardOption from 'components/PostCard/PostCardOption';
+import Like from 'components/Like';
 import Modal from 'components/Modal';
-import Avatar from 'components/Avatar';
-
-import { GET_FOLLOWED_POSTS, DELETE_POST } from 'graphql/post';
-import { GET_AUTH_USER } from 'graphql/user';
-import { GET_USER_POSTS } from 'graphql/user';
-
+import PostCardOption from 'components/PostCard/PostCardOption';
+import { A, H3 } from 'components/Text';
 import { HOME_PAGE_POSTS_LIMIT, PROFILE_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
-
-import { useStore } from 'store';
-
+import { DELETE_POST, GET_FOLLOWED_POSTS } from 'graphql/post';
+import { GET_AUTH_USER, GET_USER_POSTS } from 'graphql/user';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { generatePath } from 'react-router-dom';
 import * as Routes from 'routes';
-
+import { useStore } from 'store';
+import styled from 'styled-components';
 import { timeAgo } from 'utils/date';
+
+
+
+
+
+
 
 const Root = styled.div`
   width: 100%;
@@ -217,7 +216,7 @@ const PostCard = ({ author, imagePublicId, comments, title, createdAt, image, li
               <Like fullWidth withText user={author} postId={postId} likes={likes} />
 
               <Button fullWidth text onClick={toggleCreateComment}>
-                <PostCommentIcon /> <Spacing inline left="xxs" /> <b>Comment</b>
+                <PostCommentIcon /> <Spacing inline left="xxs" /> <b>Bình luận</b>
               </Button>
             </Icons>
           </CountAndIcons>

@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { generatePath } from 'react-router-dom';
-import styled from 'styled-components';
 import { useApolloClient } from '@apollo/client';
-
-import { A } from 'components/Text';
-import { Spacing } from 'components/Layout';
 import Avatar from 'components/Avatar';
-
-import { useClickOutside } from 'hooks/useClickOutside';
-
-import { GET_AUTH_USER } from 'graphql/user';
+import { Spacing } from 'components/Layout';
+import { A } from 'components/Text';
 import { UPDATE_NOTIFICATION_SEEN } from 'graphql/notification';
-
-import { useStore } from 'store';
-
+import { GET_AUTH_USER } from 'graphql/user';
+import { useClickOutside } from 'hooks/useClickOutside';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { generatePath } from 'react-router-dom';
 import * as Routes from 'routes';
+import { useStore } from 'store';
+import styled from 'styled-components';
+
+
+
+
+
 
 const NotificationItem = styled.div`
   display: flex;

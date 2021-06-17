@@ -1,19 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
-
-import { GET_AUTH_USER, GET_USER } from 'graphql/user';
-import { GET_POST, GET_POSTS, GET_FOLLOWED_POSTS } from 'graphql/post';
-import { CREATE_COMMENT } from 'graphql/comment';
-
-import { Textarea, Button } from './Form';
-
 import { NotificationType } from 'constants/NotificationType';
-
+import { CREATE_COMMENT } from 'graphql/comment';
+import { GET_FOLLOWED_POSTS, GET_POST, GET_POSTS } from 'graphql/post';
+import { GET_AUTH_USER, GET_USER } from 'graphql/user';
 import { useNotifications } from 'hooks/useNotifications';
-
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from 'store';
+import styled from 'styled-components';
+import { Button, Textarea } from './Form';
+
+
+
+
+
 
 const Form = styled.form`
   display: flex;
@@ -75,7 +75,7 @@ const CreateComment = ({ post, focus }) => {
       <Textarea
         onChange={(e) => setComment(e.target.value)}
         value={comment}
-        placeholder="Add a comment..."
+        placeholder="Bình luận..."
         onKeyDown={onEnterPress}
         ref={TextareaEl}
       />
@@ -88,7 +88,7 @@ const CreateComment = ({ post, focus }) => {
         ref={buttonEl}
         disabled={!comment || loading}
       >
-        Post
+        Đăng
       </Button>
     </Form>
   );

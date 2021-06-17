@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import styled from 'styled-components';
-
+import { HOME_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
+import { NotificationType } from 'constants/NotificationType';
+import { CREATE_FOLLOW, DELETE_FOLLOW } from 'graphql/follow';
 import { GET_FOLLOWED_POSTS, GET_POSTS } from 'graphql/post';
 import { GET_AUTH_USER, GET_USER } from 'graphql/user';
-import { CREATE_FOLLOW, DELETE_FOLLOW } from 'graphql/follow';
-
-import { NotificationType } from 'constants/NotificationType';
-import { HOME_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
-
-import { useStore } from 'store';
-
 import { useNotifications } from 'hooks/useNotifications';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useStore } from 'store';
+import styled from 'styled-components';
+
+
+
+
 
 const Button = styled.button`
   height: 27px;
@@ -87,7 +87,7 @@ const Follow = ({ user }) => {
 
   return (
     <Button onClick={handleClickFollow} disabled={loading} isFollowing={isFollowing}>
-      {isFollowing ? 'Following' : 'Follow'}
+      {isFollowing ? 'Đang theo dõi' : 'Theo dõi'}
     </Button>
   );
 };

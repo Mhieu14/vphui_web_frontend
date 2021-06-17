@@ -1,19 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-
+import Avatar from 'components/Avatar';
 import { Button, Textarea } from 'components/Form';
 import { SendIcon } from 'components/icons';
-import Avatar from 'components/Avatar';
 import { Spacing } from 'components/Layout';
-
 import { CREATE_MESSAGE } from 'graphql/messages';
 import { GET_CONVERSATIONS } from 'graphql/user';
-
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import * as Routes from 'routes';
+import styled from 'styled-components';
 import { currentDate } from 'utils/date';
 
-import * as Routes from 'routes';
+
+
+
 
 const Root = styled.div`
   padding: 0 ${(p) => p.theme.spacing.sm};
@@ -178,7 +178,7 @@ const MessagesChatConversation = ({ messages, authUser, chatUser, data, match })
       {match.params.userId !== Routes.NEW_ID_VALUE && chatUser && (
         <Form onSubmit={sendMessage}>
           <StyledTextarea
-            placeholder="Type a message"
+            placeholder="Nhập tin nhắn"
             value={messageText}
             onChange={(e) => setMessageText(e.target.value)}
             onKeyDown={onEnterPress}

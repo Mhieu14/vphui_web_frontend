@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-
 import Notification from '../Notification';
+
 
 const Root = styled.div`
   position: absolute;
@@ -32,7 +32,7 @@ const HeaderNotificationDropDown = ({ notificationRef, dropdownData, closeDropDo
   return (
     <Root ref={notificationRef}>
       {!dropdownData.length ? (
-        <Empty>No new notifications.</Empty>
+        <Empty>Chưa có thông báo mới</Empty>
       ) : (
         dropdownData.map((notification) => (
           <Notification key={notification.id} notification={notification} close={closeDropDown} />

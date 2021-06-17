@@ -1,22 +1,22 @@
-import React from 'react';
+import { useQuery } from '@apollo/client';
+import Avatar from 'components/Avatar';
+import { Spacing } from 'components/Layout';
+import { Loading } from 'components/Loading';
+import { A, H3 } from 'components/Text';
+import { HEADER_HEIGHT, USER_SUGGESTIONS_WIDTH } from 'constants/Layout';
+import { USER_SUGGESTIONS } from 'graphql/user';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from 'react';
 import { matchPath } from 'react-router';
 import { generatePath } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-
-import { Loading } from 'components/Loading';
-import { H3, A } from 'components/Text';
-import { Spacing } from 'components/Layout';
-import Avatar from 'components/Avatar';
-
-import { useStore } from 'store';
-
-import { USER_SUGGESTIONS } from 'graphql/user';
-
-import { USER_SUGGESTIONS_WIDTH, HEADER_HEIGHT } from 'constants/Layout';
-
 import * as Routes from 'routes';
+import { useStore } from 'store';
+import styled from 'styled-components';
+
+
+
+
+
 
 const Root = styled.div`
   display: none;
@@ -89,7 +89,7 @@ const UserSuggestions = ({ pathname }) => {
 
   return (
     <Root>
-      <H3>Suggestions For You</H3>
+      <H3>Đề xuất cho bạn</H3>
 
       <List>
         {data.suggestPeople.map((user) => {

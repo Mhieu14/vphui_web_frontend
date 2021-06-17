@@ -1,20 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
 import { useQuery } from '@apollo/client';
-
+import Notification from 'components/App/Notification';
+import Empty from 'components/Empty';
+import Head from 'components/Head';
+import InfiniteScroll from 'components/InfiniteScroll';
 import { Container, Content } from 'components/Layout';
 import { Loading } from 'components/Loading';
 import Skeleton from 'components/Skeleton';
-import Notification from 'components/App/Notification';
-import InfiniteScroll from 'components/InfiniteScroll';
-import Empty from 'components/Empty';
-import Head from 'components/Head';
-
-import { useStore } from 'store';
-
-import { GET_USER_NOTIFICATION } from 'graphql/notification';
-
 import { NOTIFICATIONS_PAGE_NOTIFICATION_LIMIT } from 'constants/DataLimit';
+import { GET_USER_NOTIFICATION } from 'graphql/notification';
+import React from 'react';
+import { useStore } from 'store';
+import styled from 'styled-components';
+
+
+
+
 
 const Root = styled(Container)`
   margin-top: ${(p) => p.theme.spacing.lg};
@@ -48,7 +48,7 @@ const Notifications = () => {
 
     const { notifications, count } = data.getUserNotifications;
     if (!notifications.length) {
-      return <Empty text="No notifications yet." />;
+      return <Empty text=" Chưa có thông báo." />;
     }
 
     return (

@@ -1,22 +1,22 @@
-import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
-import { generatePath } from 'react-router-dom';
-
-import Skeleton from 'components/Skeleton';
-import Modal from 'components/Modal';
-import PostPopup from 'components/PostPopup';
-import PostCard from 'components/PostCard';
-import { Spacing } from 'components/Layout';
-import InfiniteScroll from 'components/InfiniteScroll';
-import { Loading } from 'components/Loading';
 import Empty from 'components/Empty';
-
+import InfiniteScroll from 'components/InfiniteScroll';
+import { Spacing } from 'components/Layout';
+import { Loading } from 'components/Loading';
+import Modal from 'components/Modal';
+import PostCard from 'components/PostCard';
+import PostPopup from 'components/PostPopup';
+import Skeleton from 'components/Skeleton';
 import { PROFILE_PAGE_POSTS_LIMIT } from 'constants/DataLimit';
-
 import { GET_USER_POSTS } from 'graphql/user';
-
+import PropTypes from 'prop-types';
+import React, { Fragment, useState } from 'react';
+import { generatePath } from 'react-router-dom';
 import * as Routes from 'routes';
+
+
+
+
 
 /**
  * Renders posts in profile page
@@ -49,7 +49,7 @@ const ProfilePosts = ({ username }) => {
   if (!posts.length > 0) {
     return (
       <Spacing bottom="lg">
-        <Empty text="No posts yet." />
+        <Empty text="Chưa có hoạt động." />
       </Spacing>
     );
   }

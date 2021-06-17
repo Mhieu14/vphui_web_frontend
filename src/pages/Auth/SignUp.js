@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-
-import { Spacing, Container } from 'components/Layout';
-import { H1, Error } from 'components/Text';
-import { InputText, Button } from 'components/Form';
+import { Button, InputText } from 'components/Form';
 import Head from 'components/Head';
-
+import { Container, Spacing } from 'components/Layout';
+import { Error, H1 } from 'components/Text';
 import { SIGN_UP } from 'graphql/user';
-
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import * as Routes from 'routes';
+import styled from 'styled-components';
+
+
+
 
 const Root = styled(Container)`
   display: flex;
@@ -136,7 +136,7 @@ const SignUp = ({ history, refetch }) => {
 
       <Form>
         <Spacing bottom="md">
-          <H1>Đăng Kí</H1>
+          <H1>Đăng Ký</H1>
         </Spacing>
 
         <form onSubmit={(e) => handleSubmit(e, signup)}>
@@ -183,7 +183,7 @@ const SignUp = ({ history, refetch }) => {
           )}
           <Spacing top="sm" />
           <Button size="large" disabled={loading}>
-            Đăng Kí
+            Đăng Ký
           </Button>
         </form>
       </Form>
