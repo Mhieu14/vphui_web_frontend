@@ -87,7 +87,9 @@ const MessagesChatHeading = ({ location, match, chatUser }) => {
 
   // Update user's isOnline field in real time
   if (!loading && data && chatUser) {
-    chatUser.isOnline = data.isUserOnline.isOnline;
+    // chatUser.isOnline = data.isUserOnline.isOnline;
+    chatUser = {...chatUser, isOnline:data?.isUserOnline?.isOnline}
+
   }
 
   if (match.params.userId === Routes.NEW_ID_VALUE || !chatUser) {

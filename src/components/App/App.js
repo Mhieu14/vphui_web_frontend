@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-import { GlobalStyle } from './GlobalStyles';
-
-import { GET_AUTH_USER } from 'graphql/user';
+import { Loading } from 'components/Loading';
+import Message from 'components/Message';
+import NotFound from 'components/NotFound';
 import { GET_NEW_CONVERSATIONS_SUBSCRIPTION } from 'graphql/messages';
 import { NOTIFICATION_CREATED_OR_DELETED } from 'graphql/notification';
-
-import Message from 'components/Message';
-import { Loading } from 'components/Loading';
+import { GET_AUTH_USER } from 'graphql/user';
 import AuthLayout from 'pages/Auth/AuthLayout';
-import NotFound from 'components/NotFound';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useStore } from 'store';
 import AppLayout from './AppLayout';
+import { GlobalStyle } from './GlobalStyles';
 import ScrollToTop from './ScrollToTop';
 
-import { useStore } from 'store';
+
+
 
 /**
  * Root component of the app
@@ -56,8 +55,10 @@ const App = () => {
         }
 
         // Attach new notifications to authUser
-        const authUser = prev.getAuthUser;
-        authUser.newNotifications = newNotifications;
+        // const authUser = prev.getAuthUser;
+        // authUser.newNotifications = newNotifications;
+
+        const authUser = { ...prev?.getAuthUser, newNotifications };
 
         return { getAuthUser: authUser };
       },
@@ -84,18 +85,18 @@ const App = () => {
 
         // If authUser already has unseen message from that user,
         // remove old message, so we can show the new one
-        const index = oldConversations.findIndex((u) => u.id === newConversation.id);
-        if (index > -1) {
-          oldConversations.splice(index, 1);
-        }
-
+        // const index = oldConversations.findIndex((u) => u.id === newConversation.id);
+        // if (index > -1) {
+        //   oldConversations.splice(index, 1);
+        // }
+        
         // Merge conversations
         const mergeConversations = [newConversation, ...oldConversations];
-
         // Attach new conversation to authUser
-        const authUser = prev.getAuthUser;
-        authUser.newConversations = mergeConversations;
+        // const authUser = prev.getAuthUser;
+        // authUser.newConversations = mergeConversations;
 
+        const authUser = { ...prev?.getAuthUser, ...{ newConversations: mergeConversations } };
         return { getAuthUser: authUser };
       },
     });
