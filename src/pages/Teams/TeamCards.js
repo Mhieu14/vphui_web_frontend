@@ -51,10 +51,6 @@ const FullName = styled.span`
   font-weight: ${(p) => p.theme.font.weight.bold};
 `;
 
-const UserName = styled.span`
-  font-size: ${(p) => p.theme.font.size.xs};
-`;
-
 /**
  * Card component for rendering team info, meant to be used in Teams page
  */

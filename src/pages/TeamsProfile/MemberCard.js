@@ -164,6 +164,11 @@ const MemberCard = ({ user, isAdmin, removeUser, markAdmin }) => {
         :
         null
       }
+
+      {auth.user.username === username
+        &&
+        <ButtonRemove onClick={handleRemove}>Rời khỏi đội</ButtonRemove>
+      }
     </Root>
   );
 };

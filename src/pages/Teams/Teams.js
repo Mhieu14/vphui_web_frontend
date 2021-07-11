@@ -1,22 +1,18 @@
 import React, { Fragment } from 'react';
 import { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import axios from 'axios'
-import { Container, } from 'components/Layout';
-import { useQuery } from '@apollo/client';
-import Empty from 'components/Empty';
-import InfiniteScroll from 'components/InfiniteScroll';
+import { Container, Spacing } from 'components/Layout';
 import Modal from 'components/Modal';
 import Head from 'components/Head';
 import TeamsCard from './TeamCards';
-import { GET_AUTH_USER } from 'graphql/user';
 import { sendGet, sendPost } from 'utils/request';
 import { useStore } from 'store';
 import TeamCreate from './TeamCreate';
+import { PencilIcon } from 'components/icons';
 
 const Root = styled(Container)`
   margin-top: ${(p) => p.theme.spacing.lg};
-
+  min-height: 500px;
   @media (min-width: ${(p) => p.theme.screen.lg}) {
     margin-left: ${(p) => p.theme.spacing.lg};
     padding: 0;
@@ -31,32 +27,39 @@ const TeamsContainer = styled.div`
   margin-bottom: ${(p) => p.theme.spacing.lg};
 `;
 
-const Button = styled.button`
-  height: 27px;
-  cursor: pointer;
-  outline: none;
-  font-size: ${(p) => p.theme.font.size.xxs};
-  font-weight: ${(p) => p.theme.font.weight.bold};
-  transition: background-color 0.2s, border-color 0.1s;
-  border-radius: ${(p) => p.theme.radius.sm};
-  color: ${(p) => p.theme.colors.white};
-  padding: ${(p) => p.theme.spacing.xxs} ${(p) => p.theme.spacing.xs};
-  border: 0;
-  background-color: ${(p) => p.theme.colors.primary.main};
-  margin-bottom: 15px;
-  &:hover {
-    border-color: ${(p) => p.theme.colors.border.dark};
-  }
-`;
-
-
-export const Wrapper = styled.div`
-  position: relative;
-  margin: 0 auto;
+const TeamCardCreate = styled.div`
   width: 100%;
-  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 280px;
+  background-color: white;
+  padding: ${(p) => p.theme.spacing.sm};
+  border-radius: ${(p) => p.theme.radius.sm};
+  border: 1px solid ${(p) => p.theme.colors.border.main};
+  transition: border-color 0.1s;
+  cursor: pointer;
 `;
 
+const WrapperIcon = styled.div`
+  width: 100px;
+  height: 100px;
+  background-color: ${(p) => p.theme.colors.grey[200]};
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+const Text = styled.span`
+  transition: color 0.1s;
+  display: inline-block;
+  color: ${(p) => (p.color ? p.theme.colors[p.color] : p.theme.colors.text.secondary)};
+  font-weight: ${(p) => (p.weight ? p.theme.font.weight[p.weight] : p.theme.font.weight.normal)};
+  font-size: ${(p) => (p.size ? p.theme.font.size[p.size] : p.theme.font.size.xs)};
+  max-width: 200px;
+  font-weight: ${(p) => p.theme.font.weight.bold};
+`
 /**
  * Teams
  */
@@ -88,45 +91,50 @@ const Teams = () => {
       ...params,
       elo: 1000
     }
-    sendPost(url, null, data).then(rs => {
-      getTeams();
-    })
+    sendPost(url, null, data)
+      .then(rs => {
+        getTeams();
+      })
+      .catch(err => {
+        if(err?.response?.data?.error === "conflict"){
+          alert("Teamname bị trùng!")
+        }
+      })
 
     setIsOpen(false);
   }
 
   const renderContent = () => {
     return (
-      <>
-        <Button onClick={toggleModal}>Tạo đội bóng</Button>
+      <Fragment>
+        <TeamsContainer>
 
-        {!teams.length > 0
-          ?
-          <Empty text="No Team yet." />
-          :
-          <Fragment>
-            <TeamsContainer>
-              {teams.map((team) => (
-                <TeamsCard key={team.id} team={team.fullname} teamname={team.teamname} role={team.role} user={auth.user} />
-              ))}
-            </TeamsContainer>
-          </Fragment>
-        }
+          <TeamCardCreate onClick={toggleModal}>
+            <WrapperIcon>
+              <PencilIcon width={50} />
+            </WrapperIcon>
+            <Spacing top="sm" bottom="xs">
+              <Text>Tạo đội bóng</Text>
+            </Spacing>
+          </TeamCardCreate>
 
+          {teams.map((team) => (
+            <TeamsCard key={team.id} team={team.fullname} teamname={team.teamname} role={team.role} user={auth.user} />
+          ))}
+
+        </TeamsContainer>
         <Modal open={isOpen} onClose={toggleModal}>
           <TeamCreate onSubmit={handleCreate} onCancel={toggleModal} />
         </Modal>
-      </>
+      </Fragment>
     );
   };
 
   return (
-    <Wrapper>
-      <Root maxWidth="md">
-        <Head title="Find new People" />
-        {renderContent()}
-      </Root>
-    </Wrapper>
+    <Root maxWidth="md">
+      <Head title="Find new Team" />
+      {renderContent()}
+    </Root>
   );
 };
 

@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL_S2;
-const token = localStorage.getItem('token');
 
 export const sendGet = (url, params) => {
+    const token = localStorage.getItem('token');
+
     let promise = new Promise((resolve, reject) => {
         axios({
             method: "get",
@@ -23,6 +24,8 @@ export const sendGet = (url, params) => {
 
 
 export const sendPost = (url, params, data) => {
+    const token = localStorage.getItem('token');
+
     let promise = new Promise((resolve, reject) => {
         axios({
             method: "post",
@@ -43,6 +46,8 @@ export const sendPost = (url, params, data) => {
 };
 
 export const sendPut = (url, params, data) => {
+    const token = localStorage.getItem('token');
+
     let promise = new Promise((resolve, reject) => {
         axios({
             method: "put",
@@ -63,6 +68,8 @@ export const sendPut = (url, params, data) => {
 };
 
 export const sendDelete = (url, params) => {
+    const token = localStorage.getItem('token');
+
     let promise = new Promise((resolve, reject) => {
         axios({
             method: "delete",

@@ -72,7 +72,7 @@ const Root = styled.div`
 const Info = styled.div`
   display: flex;
   flex-direction: row;
-  // justify-content: center;
+  justify-content: center;
   font-size: ${(p) => p.theme.font.size.xs};
   margin-top: ${(p) => p.theme.spacing.sm};
 `;
@@ -94,7 +94,7 @@ const List = styled.div`
 `;
 
 const Wrapper = styled.div`
-  text-align: left;
+  text-align: center;
   width: 100%;
   padding: 15px;
   background: #f1f1f1;
@@ -152,7 +152,7 @@ const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
           ?
           <Info>
             <List className={tab === 'posts' ? 'active' : ''} onClick={changeTab.bind(this, 'posts')}>
-              <b>Hoạt động</b>
+              <b>Lịch sử thi đấu</b>
             </List>
             <List className={tab === 'members' ? 'active' : ''} onClick={changeTab.bind(this, 'members')}>
               <b>Thành viên</b>
