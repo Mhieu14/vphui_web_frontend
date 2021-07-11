@@ -2,16 +2,17 @@ import React, { Fragment } from 'react';
 import { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import axios from 'axios'
-import { Container } from 'components/Layout';
+import { Container, } from 'components/Layout';
 import { useQuery } from '@apollo/client';
 import Empty from 'components/Empty';
 import InfiniteScroll from 'components/InfiniteScroll';
+import Modal from 'components/Modal';
 import Head from 'components/Head';
 import TeamsCard from './TeamCards';
 import { GET_AUTH_USER } from 'graphql/user';
-
-
-
+import { sendGet, sendPost } from 'utils/request';
+import { useStore } from 'store';
+import TeamCreate from './TeamCreate';
 
 const Root = styled(Container)`
   margin-top: ${(p) => p.theme.spacing.lg};
@@ -30,83 +31,97 @@ const TeamsContainer = styled.div`
   margin-bottom: ${(p) => p.theme.spacing.lg};
 `;
 
+const Button = styled.button`
+  height: 27px;
+  cursor: pointer;
+  outline: none;
+  font-size: ${(p) => p.theme.font.size.xxs};
+  font-weight: ${(p) => p.theme.font.weight.bold};
+  transition: background-color 0.2s, border-color 0.1s;
+  border-radius: ${(p) => p.theme.radius.sm};
+  color: ${(p) => p.theme.colors.white};
+  padding: ${(p) => p.theme.spacing.xxs} ${(p) => p.theme.spacing.xs};
+  border: 0;
+  background-color: ${(p) => p.theme.colors.primary.main};
+  margin-bottom: 15px;
+  &:hover {
+    border-color: ${(p) => p.theme.colors.border.dark};
+  }
+`;
+
+
+export const Wrapper = styled.div`
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 500px;
+`;
+
 /**
  * Teams
  */
 const Teams = () => {
+  const [{ auth }] = useStore();
+  const [teams, setTeams] = useState([])
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect( () => {
+  useEffect(() => {
     getTeams()
-  }, [teams])
-  const token = localStorage.getItem('token');
-  
-  // let [userid, setUserid] = useState('')
-  let [teams, setTeams] = useState([])
-  // const getUserId = () => {
-  //   axios({method: "get",
-  //   url: "",
-  //   headers: { "Authorization": `${token}`
-  //   }})
-  // .then(res => {
-  //   setTeams(res.data.data);
-  // })
-  // const { userid } = useQuery(GET_AUTH_USER, {
-  //   variables: {id}
-  // });
-  const {id} = useQuery(GET_AUTH_USER);
+  }, [])
+
   const getTeams = () => {
-    axios({method: "get",
-    url: `http://localhost:3001/api/team/getListTeamsUser?user_id=${id}`,
-    headers: { "Authorization": `${token}`
-    }})
-  .then(res => {
-    setTeams(res.data.data);
-  })
+    const url = 'team/getListTeamsUser';
+    const { username } = auth?.user || {};
+
+    sendGet(url, { username }).then(rs => {
+      setTeams(rs?.data?.data || []);
+    })
   }
-  
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  }
+
+  const handleCreate = (params) => {
+    const url = 'team/create';
+    const data = {
+      ...params,
+      elo: 1000
+    }
+    sendPost(url, null, data).then(rs => {
+      getTeams();
+    })
+
+    setIsOpen(false);
+  }
+
   const renderContent = () => {
-  
     if (!teams.length > 0) return <Empty text="No Team yet." />
-  // axios.get(`http://localhost:4000/graphql`)
-  // .then(res => {
-  //   let userid = res.data.getAuthUser.id;
-  //   setUserid(userid);
-  // })
-  
-  
-  
-    
-    ;
 
     return (
-      <InfiniteScroll
-        data={teams}  
-      >
-        {(data) => {
-          
+      <>
+        <Button onClick={toggleModal}>Tạo đội bóng</Button>
 
-          return (
-            <Fragment>
-              <TeamsContainer>
-                {data.map((team) => (
-                  <TeamsCard key={team.id} team={team.fullname} role = {team.role} />
-                ))}
-              </TeamsContainer>
+        <TeamsContainer>
+          {teams.map((team) => (
+            <TeamsCard key={team.id} team={team.fullname} teamname={team.teamname} role={team.role} user={auth.user} />
+          ))}
+        </TeamsContainer>
 
-              
-            </Fragment>
-          );
-        }}
-      </InfiniteScroll>
+        <Modal open={isOpen} onClose={toggleModal}>
+          <TeamCreate onSubmit={handleCreate} onCancel={toggleModal} />
+        </Modal>
+      </>
     );
   };
-  
-  return (
-    <Root maxWidth="md">
-      <Head title="Find new People" />
 
-      {renderContent()}
-    </Root>
+  return (
+    <Wrapper>
+      <Root maxWidth="md">
+        <Head title="Find new People" />
+        {renderContent()}
+      </Root>
+    </Wrapper>
   );
 };
 

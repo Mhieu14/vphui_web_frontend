@@ -19,7 +19,7 @@ import { useGlobalMessage } from 'hooks/useGlobalMessage';
 
 const Root = styled.div`
   width: 100%;
-  height: 350px;
+  height: 300px;
   position: relative;
   background-image: url(${(p) => (p.image ? p.image : defaultBackgroundImage)});
   background-size: cover;
@@ -102,21 +102,21 @@ const ProfileCoverUpload = ({ coverImagePublicId, coverImage, userId }) => {
 
   return (
     <Root image={coverImage}>
-      <Input
+      {/* <Input
         name="coverImage"
         type="file"
         id="coverImage"
         onChange={handleImageChange}
         accept="image/x-png,image/jpeg"
-      />
+      /> */}
 
       {loading && <Loading top="xl" size="xl" />}
 
-      {auth.user.id === userId && (
+      {/* {auth.user.id === userId && (
         <Label htmlFor="coverImage">
           <UploadImageIcon width="14" color="white" />
         </Label>
-      )}
+      )} */}
     </Root>
   );
 };

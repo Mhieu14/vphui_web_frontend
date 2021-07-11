@@ -2,12 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { generatePath } from 'react-router-dom';
-
 import { A } from 'components/Text';
 import { Spacing } from 'components/Layout';
-
 import theme from 'theme';
-
 import * as Routes from 'routes';
 
 const Root = styled.div`
@@ -61,10 +58,8 @@ const UserName = styled.span`
 /**
  * Card component for rendering team info, meant to be used in Teams page
  */
-const TeamsCard = ({ team, role }) => {
+const TeamsCard = ({ team, role, teamname }) => {
   const [color, setColor] = useState('');
-
-  
 
   useEffect(() => {
     const { primary, secondary, success, error } = theme.colors;
@@ -73,28 +68,46 @@ const TeamsCard = ({ team, role }) => {
     setColor(colors[randomColor]);
   }, []);
 
-  
+  const splitFullName = () => {
+    // If a fullName contains more word than two, take first two word
+    const splitWords = team.split(' ').slice(0, 2).join(' ');
+
+    // Take only first letters from split words
+    const firstLetters = splitWords
+      .split(' ')
+      .map((a) => a.charAt(0))
+      .join(' ');
+
+    return firstLetters;
+  };
+
   return (
     <Root>
-      
+      <A to={generatePath(Routes.TEAM_PROFILE, { teamname })}>
+        <ImageContainer>
+          {<InitialLetters color={color}>{splitFullName()}</InitialLetters>}
+        </ImageContainer>
+      </A>
 
       <Spacing top="sm" bottom="xs">
-        <A >
+        <A to={generatePath(Routes.TEAM_PROFILE, { teamname })} >
           <FullName>{team}</FullName>
         </A>
       </Spacing>
+
       <Spacing top="sm" bottom="xs">
-        <A >
+        <FullName>@{teamname}</FullName>
+      </Spacing>
+
+      <Spacing top="sm" bottom="xs">
+        <A to={generatePath(Routes.TEAM_PROFILE, { teamname })}>
           <FullName>Vai trò: {role}</FullName>
         </A>
       </Spacing>
-     
-
-      
 
       <Spacing top="lg" />
 
-      
+
     </Root>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
@@ -11,14 +11,12 @@ import CreatePost from 'components/CreatePost';
 import ProfilePosts from './ProfilePosts';
 import NotFound from 'components/NotFound';
 import Head from 'components/Head';
-
-import { GET_USER } from 'graphql/user';
-
+import { sendGet } from 'utils/request';
 import { useStore } from 'store';
 
 const Root = styled.div`
   width: 100%;
-
+  min-height: 500px;
   @media (min-width: ${(p) => p.theme.screen.lg}) {
     margin-left: ${(p) => p.theme.spacing.lg};
     padding: 0;
@@ -30,12 +28,39 @@ const Root = styled.div`
  */
 const Profile = ({ match }) => {
   const [{ auth }] = useStore();
-  const { username } = match.params;
-  const { data, loading, error } = useQuery(GET_USER, {
-    variables: { username },
-  });
+  const { teamname } = match.params;
+  const [loading, setLoading] = useState(true);
+  const [teamInfo, setTeamInfo] = useState(null);
+  const [joined, setJoined] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    getTeamDetail();
+  }, [])
+
+  const getTeamDetail = () => {
+    const url = 'team/detail';
+    const params = { teamname };
+
+    sendGet(url, params)
+      .then(rs => {
+        const teamData = rs?.data?.data;
+
+        const currentUser = teamData.member.find(i => i.username === auth.user.username);
+        if(currentUser){
+          setJoined(true);
+          if(currentUser.role === 'admin') setIsAdmin(true);
+        }
+        setTeamInfo(teamData);
+        setLoading(false);
+      })
+      .catch(err => {
+        setLoading(false);
+      })
+  }
 
   const renderContent = () => {
+
     if (loading) {
       return (
         <Container padding="xxs">
@@ -49,26 +74,26 @@ const Profile = ({ match }) => {
       );
     }
 
-    if (error || !data.getUser) return <NotFound />;
+    if (!teamInfo) return <NotFound />;
 
     return (
       <Container padding="xxs">
-        <ProfileInfo user={data.getUser} />
+        <ProfileInfo user={auth.user} team={teamInfo} joined={joined} isAdmin={isAdmin} reloadTeamInfo={getTeamDetail} />
 
-        <Container maxWidth="sm">
+        {/* <Container maxWidth="sm">
           <Spacing top="lg" bottom="lg">
-            {username === auth.user.username && <CreatePost />}
+            {teamname === auth.user.username && <CreatePost />}
           </Spacing>
 
           <ProfilePosts username={username} />
-        </Container>
+        </Container> */}
       </Container>
     );
   };
 
   return (
     <Root>
-      <Head title={username} />
+      <Head title={teamname} />
 
       {renderContent()}
     </Root>
