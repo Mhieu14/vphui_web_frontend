@@ -50,6 +50,9 @@ const Profile = ({ match }) => {
         if(currentUser){
           setJoined(true);
           if(currentUser.role === 'admin') setIsAdmin(true);
+        }else{
+          setJoined(false);
+          setIsAdmin(false);
         }
         setTeamInfo(teamData);
         setLoading(false);
