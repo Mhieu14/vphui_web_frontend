@@ -96,17 +96,22 @@ const Teams = () => {
   }
 
   const renderContent = () => {
-    if (!teams.length > 0) return <Empty text="No Team yet." />
-
     return (
       <>
         <Button onClick={toggleModal}>Tạo đội bóng</Button>
 
-        <TeamsContainer>
-          {teams.map((team) => (
-            <TeamsCard key={team.id} team={team.fullname} teamname={team.teamname} role={team.role} user={auth.user} />
-          ))}
-        </TeamsContainer>
+        {!teams.length > 0
+          ?
+          <Empty text="No Team yet." />
+          :
+          <Fragment>
+            <TeamsContainer>
+              {teams.map((team) => (
+                <TeamsCard key={team.id} team={team.fullname} teamname={team.teamname} role={team.role} user={auth.user} />
+              ))}
+            </TeamsContainer>
+          </Fragment>
+        }
 
         <Modal open={isOpen} onClose={toggleModal}>
           <TeamCreate onSubmit={handleCreate} onCancel={toggleModal} />
