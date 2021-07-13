@@ -116,7 +116,7 @@ const HR = styled.div`
  * Renders user information in profile page
  */
 const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
-  const [tab, setTab] = useState('posts');
+  const [tab, setTab] = useState('members');
   const changeTab = (tabId) => {
     if (tabId !== tab) setTab(tabId);
   }
@@ -143,7 +143,7 @@ const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
 
   return (
     <Root>
-      <ProfileCoverUpload userId={user.id} coverImage={user.coverImage} coverImagePublicId={user.coverImagePublicId} />
+      <ProfileCoverUpload />
       <Wrapper>
         <H1>{team.fullname}</H1>
         <H5><b>@{team.teamname}</b> · {team.member.length} thành viên</H5>
@@ -151,11 +151,11 @@ const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
         {joined
           ?
           <Info>
+             <List className={tab === 'members' ? 'active' : ''} onClick={changeTab.bind(this, 'members')}>
+              <b>Thành viên</b>
+            </List>
             <List className={tab === 'posts' ? 'active' : ''} onClick={changeTab.bind(this, 'posts')}>
               <b>Lịch sử thi đấu</b>
-            </List>
-            <List className={tab === 'members' ? 'active' : ''} onClick={changeTab.bind(this, 'members')}>
-              <b>Thành viên</b>
             </List>
           </Info>
           :

@@ -27,8 +27,6 @@ const MatchupAttention = () => {
         Promise.all([p1, p2]).then(([teams, matchups]) => {
             const currentUserId = auth.user.id;
             const teamIds = teams.map(item => item.id);
-            console.log("rs promise", { teams, matchups, teamIds })
-
 
             let matchupData = matchups.filter(item => {
                 if (item.userCreate === currentUserId) return false;

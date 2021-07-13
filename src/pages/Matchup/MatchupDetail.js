@@ -9,7 +9,7 @@ import Modal from 'components/Modal';
 import { CloseIcon } from 'components/icons';
 import { sendPost, sendGet } from 'utils/request';
 import { EmptyIcon } from 'components/icons';
-
+import { Loading } from 'components/Loading';
 
 const LI = styled.li`
   color: ${(p) => p.theme.colors.error.main};
@@ -114,6 +114,7 @@ const Title = styled.div`
 const Item = styled.div`
   cursor: pointer;
   padding: 10px;
+  border-top: 1px solid #d3d3d3;
   &:hover{
     background: #ddd;
   }
@@ -126,8 +127,9 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [teamListSelectable, setTeamListSelectable] = useState([]);
   const [attentionList, setAttentionList] = useState([]);
-  const myTeamIds = teamList.map(item => item.id);
-  const attentionCount = attentionList?.length || 0;
+  const [loading, setLoading] = useState(true);
+  // const myTeamIds = teamList.map(item => item.id);
+  // const attentionCount = attentionList?.length || 0;
   const [callRequestCount, setCallRequestCount] = useState(0);
 
 
@@ -140,11 +142,16 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
     const params = {
       matchup_id: _id,
     };
-    sendGet(url, params).then(rs => {
-      console.log("detail again", rs)
-      setCallRequestCount(callRequestCount + 1);
-      setAttentionList(rs?.data?.data?.attentions || []);
-    })
+    sendGet(url, params)
+      .then(rs => {
+        console.log("detail again", rs)
+        setCallRequestCount(callRequestCount + 1);
+        setAttentionList(rs?.data?.data?.attentions || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setLoading(false);
+      })
   }
 
   const createAttention = () => {
@@ -262,31 +269,38 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
             <tr>
               <Td>Đội quan tâm</Td>
               <Td>
-                {attentionList.map((item, index) =>
-                  <Fragment key={item._id}>
-                    <Flex>
-                      <FlexItem>
-                        @{item.teamCreate.teamname}
-                      </FlexItem>
-
-                      <FlexItem>
-                        {is_my_team_admin_matchup
-                          &&
-                          <ButtonMini title="Confirm" className="create" onClick={confirmAttention.bind(this, item._id)}>+</ButtonMini>
-                        }
-                        {(is_my_team_admin_matchup || item.is_my_team_admin_attention)
-                          &&
-                          <ButtonMini title="Remove" className="remove" onClick={removeAttention.bind(this, item._id)}>x</ButtonMini>
-                        }
-                      </FlexItem>
-                    </Flex>
-                  </Fragment>
-                )}
-
-                {!attentionList.length
-                  &&
+                {loading
+                  ?
+                  <Loading />
+                  :
                   <Fragment>
-                    <EmptyIcon />
+                    {attentionList.map((item, index) =>
+                      <Fragment key={item._id}>
+                        <Flex>
+                          <FlexItem>
+                            @{item.teamCreate.teamname}
+                          </FlexItem>
+
+                          <FlexItem>
+                            {is_my_team_admin_matchup
+                              &&
+                              <ButtonMini title="Confirm" className="create" onClick={confirmAttention.bind(this, item._id)}>+</ButtonMini>
+                            }
+                            {(is_my_team_admin_matchup || item.is_my_team_admin_attention)
+                              &&
+                              <ButtonMini title="Remove" className="remove" onClick={removeAttention.bind(this, item._id)}>x</ButtonMini>
+                            }
+                          </FlexItem>
+                        </Flex>
+                      </Fragment>
+                    )}
+
+                    {!attentionList.length
+                      &&
+                      <Fragment>
+                        <EmptyIcon />
+                      </Fragment>
+                    }
                   </Fragment>
                 }
               </Td>

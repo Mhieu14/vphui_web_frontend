@@ -3,6 +3,7 @@ import { useState } from 'react'
 import styled from 'styled-components';
 import Modal from 'components/Modal';
 import MatchupDetail from './MatchupDetail';
+import { useStore } from 'store';
 
 
 const List = styled.div`
@@ -10,6 +11,8 @@ const List = styled.div`
   overflow: hidden;
   border-radius: ${(p) => p.theme.radius.sm};
   border: 1px solid ${(p) => p.theme.colors.border.main};
+  border-left: 5px solid gray;
+  margin: 10px 0px;
 `;
 
 const Item = styled.div`
@@ -33,7 +36,7 @@ const Item = styled.div`
 
 const UL = styled.ul`
   padding: 0px 20px;
-  margin: 10px 0px;
+  margin: 10px 0px 0px;
 `
 const LI = styled.li`
   color: ${(p) => p.theme.colors.error.main};
@@ -48,27 +51,33 @@ const Flex = styled.div`
 /**
  * Matchup item
  */
-const MatchupMyself = ({ matchup, teamList, reload = () => { } }) => {
-  // const [{ auth }] = useStore();
+const MatchupMyself = ({ matchup, teamList = [], reload = () => { } }) => {
+  const [{ auth }] = useStore();
   const [isOpen, setIsOpen] = useState(false);
   const { _id, description, stadium, teamCreate, timeStart, attentions } = matchup || {};
   const attentionCount = attentions?.length || 0;
+  const teamIds = teamList.map(i => i.id);
+
+  let styleCustom = {};
+  if (matchup.userCreate === auth.user.id) {
+    styleCustom = { borderLeftColor: 'green' };
+  }else{
+    const isAttention = matchup.attentions.some(item => teamIds.includes(item.teamCreate._id));
+    if(isAttention) styleCustom = {borderLeftColor: 'orange'};
+  }
 
   const selectMatchup = () => {
     setIsOpen(true);
   }
 
   const toggleModal = (evt) => {
-    console.log("evt", evt)
     if (evt > 1) reload();
     setIsOpen(false);
   }
 
-  console.log("run???")
-
   return (
     <Fragment>
-      <List key={_id}>
+      <List key={_id} style={{...styleCustom}}>
         <Item onClick={selectMatchup}>
           <b>{description}</b>
           <Flex>

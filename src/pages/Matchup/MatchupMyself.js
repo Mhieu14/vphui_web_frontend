@@ -101,7 +101,6 @@ const MatchupMyself = () => {
         setMatchupList(data.reverse());
         setIsOpen(false);
         setLoading(false);
-        console.log("rs ", rs)
       })
       .catch(err => {
         setLoading(false);

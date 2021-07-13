@@ -91,6 +91,19 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
+const InputArea = styled.textarea`
+//   height: 40px;
+  min-width: 300px;
+  display: block;
+  background: #e5e5e5;
+  border: none;
+  outline: none;
+  padding: 0px 10px;
+  margin: 5px 0px;
+  border-radius: 5px;
+`;
+
+
 const Select = styled.select`
   height: 40px;
   width: 300px;
@@ -98,7 +111,7 @@ const Select = styled.select`
   background: #e5e5e5;
   border: none;
   outline: none;
-  padding: 0px 10px;
+  padding: 3px 10px;
   margin: 5px 0px;
   border-radius: 5px;
 `;
@@ -151,17 +164,14 @@ const MatchupCreate = ({ teamList = [], onReload, onCancel }) => {
     }
 
     const handleChangeTeam = (evt) => {
-        console.log("value time", evt.target.value)
         setTeamname(evt.target.value);
     }
 
     const handleChangeStadium = (evt) => {
-        console.log("value time", evt.target.value)
         setStadiumId(evt.target.value);
     }
 
     const handleChangeTimeStart = (evt) => {
-        console.log("value time", evt.target.value)
         setTimeStart(evt.target.value);
     }
 
@@ -192,7 +202,7 @@ const MatchupCreate = ({ teamList = [], onReload, onCancel }) => {
                 <Input type="datetime-local" value={timeStart} onChange={handleChangeTimeStart} />
 
                 <Text>Description</Text>
-                <Input value={description} onChange={handleChangeDescription} />
+                <InputArea rows={5} value={description} onChange={handleChangeDescription} />
                 <br />
                 <Buttons>
                     <Button onClick={handleCreate}

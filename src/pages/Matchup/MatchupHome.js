@@ -68,7 +68,7 @@ const MatchupHome = ({ location }) => {
             <A to={generatePath(MATCHUP_ATTENTION)}>Kèo đang quan tâm</A>
           </List>
           <List className={pathname === MATCHUP_SUGGEST && 'active'}>
-            <A to={generatePath(MATCHUP_SUGGEST)}>Đề xuất cho bạn</A>
+            <A to={generatePath(MATCHUP_SUGGEST)}>Tất cả</A>
           </List>
         </Info>
         <HR />

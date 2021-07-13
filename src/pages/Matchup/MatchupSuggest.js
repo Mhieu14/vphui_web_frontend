@@ -30,19 +30,17 @@ const MatchSuggest = () => {
         })
 
         Promise.all([p1, p2]).then(([teams, matchups]) => {
-            const currentUserId = auth.user.id;
-            const teamIds = teams.map(item => item.id);
-            console.log("rs promise", { teams, matchups, teamIds })
+            // const currentUserId = auth.user.id;
+            // const teamIds = teams.map(item => item.id);
 
-
-            let matchupData = matchups.filter(item => {
-                if (item.userCreate === currentUserId) return false;
-                if (teamIds.includes(item.teamCreate._id)) return false;
-                return !item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
-            });
+            // let matchupData = matchups.filter(item => {
+            //     if (item.userCreate === currentUserId) return false;
+            //     if (teamIds.includes(item.teamCreate._id)) return false;
+            //     return !item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
+            // });
 
             setTeamList(teams);
-            setMatchupList(matchupData.reverse());
+            setMatchupList(matchups.reverse());
             setLoading(false);
         })
     }, [])
@@ -52,17 +50,17 @@ const MatchSuggest = () => {
         sendGet(url)
             .then(rs => {
                 const matchups = rs?.data?.data || [];
-                const currentUserId = auth.user.id;
-                const teamIds = teamList.map(item => item.id);
+                // const currentUserId = auth.user.id;
+                // const teamIds = teamList.map(item => item.id);
 
 
-                let matchupData = matchups.filter(item => {
-                    if (item.userCreate === currentUserId) return false;
-                    if (teamIds.includes(item.teamCreate._id)) return false;
-                    return !item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
-                });
+                // let matchupData = matchups.filter(item => {
+                //     if (item.userCreate === currentUserId) return false;
+                //     if (teamIds.includes(item.teamCreate._id)) return false;
+                //     return !item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
+                // });
 
-                setMatchupList(matchupData.reverse());
+                setMatchupList(matchups.reverse());
                 setLoading(false);
             })
             .catch(err => {
