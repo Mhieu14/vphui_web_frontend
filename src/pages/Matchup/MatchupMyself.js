@@ -112,8 +112,6 @@ const MatchupMyself = () => {
   }
 
   const renderContent = () => {
-    if (loading) return;
-
     return (
       <Fragment>
         <Flex onClick={toggleModal}>
@@ -123,15 +121,19 @@ const MatchupMyself = () => {
           <AlignSelf>Lập kèo</AlignSelf>
         </Flex>
 
-        {matchupList?.length
-          ?
-          matchupList.map(item =>
-            <MatchupItemCard matchup={item} key={item._id} reload={getMatchupList} />
-          )
-          :
-          <Empty text="Chưa có Kèo" />
+        {!loading
+          &&
+          <Fragment>
+            {matchupList?.length
+              ?
+              matchupList.map(item =>
+                <MatchupItemCard matchup={item} key={item._id} reload={getMatchupList} />
+              )
+              :
+              <Empty text="Chưa có Kèo" />
+            }
+          </Fragment>
         }
-
 
         <Modal open={isOpen} onClose={toggleModal}>
           <MatchupCreate teamList={teamList} onReload={getMatchupList} onCancel={toggleModal} />

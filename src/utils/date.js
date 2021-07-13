@@ -56,3 +56,15 @@ export const currentDate = (unixTimestamp) => {
 
   return `${month} ${day}, ${year} ${time}`;
 };
+
+export const splitTime = (dateStr) => {
+  let dt = dateStr.replace('.000Z', '');
+  dt = new Date(dt);
+  if (dt === 'Invalid Date') dt = new Date();
+  const date = (dt.getDate()).toString().padStart(2, '0');
+  const month = (dt.getMonth() + 1).toString().padStart(2, '0');
+  const year = dt.getFullYear().toString();
+  const hour = (dt.getHours()).toString().padStart(2, '0');
+  const minute = (dt.getMinutes()).toString().padStart(2, '0');
+  return [year, month, date, hour, minute];
+}

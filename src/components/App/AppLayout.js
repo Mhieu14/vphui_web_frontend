@@ -20,6 +20,7 @@ import Stadiums from 'pages/Stadiums';
 import Notifications from 'pages/Notifications';
 import Post from 'pages/Post';
 import Messages from 'pages/Messages';
+import Match from 'pages/Match';
 
 import { useWindowSize } from 'hooks/useWindowSize';
 import { useClickOutside } from 'hooks/useClickOutside';
@@ -100,6 +101,7 @@ const AppLayout = ({ location, authUser }) => {
           <Route exact path={Routes.TEAMS} component={Teams} />
           <Route exact path={Routes.TEAM_PROFILE} component={TeamsProfile} />
           <Route exact path={Routes.STADIUMS} component={Stadiums} />
+          <Route exact path={Routes.MATCH} component={Match} />
 
           <Route exact path={Routes.NOTIFICATIONS} component={Notifications} />
 

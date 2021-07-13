@@ -26,6 +26,8 @@ export const MATCHUP_ATTENTION = '/matchup/attention';
 export const MATCHUP_SUGGEST = '/matchup/suggest';
 export const MATCHUP_DETAIL = '/matchup/detail/:id';
 
+export const MATCH = '/match';
+
 export const san1 = 'https://www.google.com/maps'
 
 export const NOTIFICATIONS = '/notifications';

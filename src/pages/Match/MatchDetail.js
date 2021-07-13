@@ -10,7 +10,6 @@ import { CloseIcon } from 'components/icons';
 import { sendPost, sendGet } from 'utils/request';
 import { EmptyIcon } from 'components/icons';
 import { Loading } from 'components/Loading';
-import { splitTime } from 'utils/date';
 
 const LI = styled.li`
   color: ${(p) => p.theme.colors.error.main};
@@ -121,11 +120,10 @@ const Item = styled.div`
   }
 `
 
-const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
+const MatchDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
   const [{ auth }] = useStore();
   const { id: currentUserId } = auth.user;
   const { _id, description, stadium, teamCreate, timeStart, userCreate, is_my_team_admin_matchup } = matchup || {};
-  const [year, month, date, hour, minute] = splitTime(timeStart);
   const [isOpen, setIsOpen] = useState(false);
   // const [teamListSelectable, setTeamListSelectable] = useState([]);
   const [attentionList, setAttentionList] = useState([]);
@@ -262,7 +260,7 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
             </tr>
             <tr>
               <Td>Thời gian bắt đầu</Td>
-              <Td>{date}/{month}/{year} {hour}:{minute} </Td>
+              <Td>{timeStart}</Td>
             </tr>
             <tr>
               <Td>Thành viên tạo</Td>
@@ -331,4 +329,4 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
   );
 };
 
-export default MatchupDetail;
+export default MatchDetail;

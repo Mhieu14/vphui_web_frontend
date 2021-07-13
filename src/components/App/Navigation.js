@@ -106,12 +106,12 @@ const Navigation = () => {
         </ListItem>
       </Link>
 
-      {/* <Link exact activeClassName="selected" to={Routes.PEOPLE}>
+      <Link exact activeClassName="selected" to={Routes.MATCH}>
         <ListItem>
           <PeopleIcon width={18} />
           <Name>Lịch sử thi đấu</Name>
         </ListItem>
-      </Link> */}
+      </Link>
 
       {/* <Link exact activeClassName="selected" to={Routes.TEAMS}>
         <ListItem>
