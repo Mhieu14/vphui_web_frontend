@@ -99,14 +99,14 @@ const Navigation = () => {
         </ListItem>
       </Link>
 
-      {/* <Link exact activeClassName="selected" to={Routes.PEOPLE}>
+      <Link exact activeClassName="selected" to={Routes.MATCHUPHOME}>
         <ListItem>
           <PeopleIcon width={18} />
           <Name>Lập kèo</Name>
         </ListItem>
       </Link>
 
-      <Link exact activeClassName="selected" to={Routes.PEOPLE}>
+      {/* <Link exact activeClassName="selected" to={Routes.PEOPLE}>
         <ListItem>
           <PeopleIcon width={18} />
           <Name>Lịch sử thi đấu</Name>

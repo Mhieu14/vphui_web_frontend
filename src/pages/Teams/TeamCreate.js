@@ -30,7 +30,7 @@ const InputGroup = styled.div`
 
 const Prefix = styled.div`
   position: absolute;
-  top: 10px;
+  top: 11px;
   left: 5px;
   color: gray;
 `

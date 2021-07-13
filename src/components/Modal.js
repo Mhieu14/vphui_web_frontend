@@ -26,12 +26,12 @@ const Root = styled.div`
 /**
  * Main component for rendering Modals
  */
-const Modal = ({ children, open, onClose, type, ...otherProps }) => {
+const Modal = ({ children, open, onClose, type, hiddenOverlay, ...otherProps }) => {
   if (!open) return null;
 
   return (
     <Root>
-      <Overlay onClick={onClose} />
+      {!hiddenOverlay && <Overlay onClick={onClose} />}
 
       {type === 'confirm' ? <Confirm {...otherProps} /> : children}
     </Root>

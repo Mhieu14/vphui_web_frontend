@@ -13,10 +13,19 @@ export const USER_PROFILE = '/:username';
 export const EXPLORE = '/explore';
 
 export const PEOPLE = '/people';
+
+// teams
 export const TEAMS = '/teams';
+export const TEAM_PROFILE = '/team-profile/:teamname';
+
 export const STADIUMS = '/stadiums';
+
+// matchup
 export const MATCHUPHOME = '/matchup';
-export const TEAM_PROFILE = '/team-profile/:teamname'
+export const MATCHUP_ATTENTION = '/matchup/attention';
+export const MATCHUP_SUGGEST = '/matchup/suggest';
+export const MATCHUP_DETAIL = '/matchup/detail/:id';
+
 export const san1 = 'https://www.google.com/maps'
 
 export const NOTIFICATIONS = '/notifications';

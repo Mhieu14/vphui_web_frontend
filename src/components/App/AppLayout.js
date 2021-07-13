@@ -92,7 +92,7 @@ const AppLayout = ({ location, authUser }) => {
 
         <Switch>
           <Route exact path={Routes.HOME} component={Home} />
-          <Route exact path={Routes.MATCHUPHOME} component={MatchupHome} />
+          <Route path={Routes.MATCHUPHOME} component={MatchupHome} />
 
           <Route exact path={Routes.EXPLORE} component={Explore} />
 
