@@ -31,14 +31,13 @@ const MatchupAttention = () => {
 
 
             let matchupData = matchups.filter(item => {
-                if(item.userCreate === currentUserId) return false;
-                if(teamIds.includes(item.teamCreate._id)) return true;
-                console.log( item.attentions.some(id => teamIds.includes(id)))
-                return true;
+                if (item.userCreate === currentUserId) return false;
+                if (teamIds.includes(item.teamCreate._id)) return true;
+                return item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
             });
-            
+
             setTeamList(teams);
-            setMatchupList(matchupData);
+            setMatchupList(matchupData.reverse());
             setLoading(false);
         })
     }, [])
@@ -47,10 +46,18 @@ const MatchupAttention = () => {
         const url = 'matchup/getAll';
         sendGet(url)
             .then(rs => {
-                let { data } = rs.data;
+                const matchups = rs?.data?.data || [];
                 const currentUserId = auth.user.id;
-                data = data.filter(item => item.userCreate !== currentUserId);
-                setMatchupList(data.reverse());
+                const teamIds = teamList.map(item => item.id);
+
+
+                let matchupData = matchups.filter(item => {
+                    if (item.userCreate === currentUserId) return false;
+                    if (teamIds.includes(item.teamCreate._id)) return true;
+                    return item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
+                });
+
+                setMatchupList(matchupData.reverse());
                 setLoading(false);
             })
             .catch(err => {

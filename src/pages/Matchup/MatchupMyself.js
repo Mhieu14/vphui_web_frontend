@@ -79,9 +79,16 @@ const MatchupMyself = () => {
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [matchupList, setMatchupList] = useState([]);
+  const [teamList, setTeamList] = useState([]);
 
   useEffect(() => {
     getMatchupList();
+
+    sendGet('team/getListTeamsUser', { username: auth.user?.username })
+      .then(rs => {
+        setTeamList(rs?.data?.data || [])
+      });
+
   }, [])
 
   const getMatchupList = () => {
@@ -128,7 +135,7 @@ const MatchupMyself = () => {
 
 
         <Modal open={isOpen} onClose={toggleModal}>
-          <MatchupCreate onReload={getMatchupList} onCancel={toggleModal} />
+          <MatchupCreate teamList={teamList} onReload={getMatchupList} onCancel={toggleModal} />
         </Modal>
 
       </Fragment>

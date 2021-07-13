@@ -22,14 +22,14 @@ const Buttons = styled.div`
 `;
 
 const ModalBody = styled.div`
-  min-width: 500px;
+  min-width: 400px;
   border-radius: 5px;
   background: white;
   z-index: 99;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);s
   // padding: ${(p) => p.theme.spacing.sm} ${(p) => p.theme.spacing.sm};
 `
 const WrapIcon = styled.div`
@@ -57,6 +57,7 @@ const Main = styled.div`
 
 const Flex = styled.div`
   display: flex;
+  min-height: 30px;
 `
 
 const FlexItem = styled.div`
@@ -100,12 +101,28 @@ const ButtonMini = styled.button`
       color: white;
     }
   }
+`;
+
+const Title = styled.div`
+  background: #ccc;
+  text-align: center;
+  padding: 15px 10px;
+  font-weight: bold;
+  border-radius: 5px 5px 0px 0px;
+`;
+
+const Item = styled.div`
+  cursor: pointer;
+  padding: 10px;
+  &:hover{
+    background: #ddd;
+  }
 `
 
 const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
   const [{ auth }] = useStore();
   const { id: currentUserId } = auth.user;
-  const { _id, description, stadium, teamCreate, timeStart, userCreate } = matchup || {};
+  const { _id, description, stadium, teamCreate, timeStart, userCreate, is_my_team_admin_matchup } = matchup || {};
   const [isOpen, setIsOpen] = useState(false);
   // const [teamListSelectable, setTeamListSelectable] = useState([]);
   const [attentionList, setAttentionList] = useState([]);
@@ -151,12 +168,19 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
       attention_id: id,
     }
     sendPost(url, null, data).then(rs => {
-      console.log("remove", rs)
       getAttentionList();
     })
   }
 
   const removeMatchup = () => {
+    const url = "matchup/delete";
+    const data = {
+      matchup_id: _id,
+    }
+    sendPost(url, null, data).then(rs => {
+      console.log("remove", rs)
+      onClose(2);
+    })
 
   }
 
@@ -193,11 +217,11 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
         <WrapIcon onClick={toggleModal} >
           <CloseIcon />
         </WrapIcon>
-        <h3>Chọn đội bóng muốn quan tâm kèo:</h3>
+        <Title>Chọn đội muốn quan tâm kèo:</Title>
         {teamListSelectable.map(item =>
-          <div onClick={selectTeamAttention.bind(this, item)} style={{ background: 'gray', cursor: 'pointer', padding: '10px', margin: '10px 0px' }}>
-            {item.fullname} @{item.teamname}
-          </div>
+          <Item onClick={selectTeamAttention.bind(this, item)} >
+            <b>@{item.teamname}</b> - {item.fullname}
+          </Item>
         )}
 
         {!teamListSelectable.length
@@ -242,11 +266,18 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
                   <Fragment key={item._id}>
                     <Flex>
                       <FlexItem>
-                        {/* <ButtonMini className="create" onClick={confirmAttention.bind(this, item._id)}>+</ButtonMini> */}
-                        {index === 1 && <ButtonMini className="remove" onClick={removeAttention.bind(this, item._id)}>x</ButtonMini>}
-                      </FlexItem>
-                      <FlexItem>
                         @{item.teamCreate.teamname}
+                      </FlexItem>
+
+                      <FlexItem>
+                        {is_my_team_admin_matchup
+                          &&
+                          <ButtonMini title="Confirm" className="create" onClick={confirmAttention.bind(this, item._id)}>+</ButtonMini>
+                        }
+                        {(is_my_team_admin_matchup || item.is_my_team_admin_attention)
+                          &&
+                          <ButtonMini title="Remove" className="remove" onClick={removeAttention.bind(this, item._id)}>x</ButtonMini>
+                        }
                       </FlexItem>
                     </Flex>
                   </Fragment>
@@ -264,13 +295,14 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
           </tbody>
         </Table>
         <Buttons>
-          {currentUserId !== userCreate
+          {!is_my_team_admin_matchup
             &&
             <Button onClick={createAttention}>Quan tâm</Button>
           }
-          {/* <Button onClick={confirmAttention}>Đồng ý</Button> */}
-          {/* <Button onClick={removeAttention}>Hủy quan tâm</Button> */}
-          <Button onClick={removeMatchup}>Xóa kèo</Button>
+          {is_my_team_admin_matchup
+            &&
+            <Button onClick={removeMatchup}>Xóa kèo</Button>
+          }
         </Buttons>
 
       </Main>

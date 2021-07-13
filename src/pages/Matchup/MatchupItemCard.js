@@ -75,6 +75,7 @@ const MatchupMyself = ({ matchup, teamList, reload = () => { } }) => {
             <div>
               <UL>
                 <li>{timeStart}</li>
+                <li>@{teamCreate.teamname} - {teamCreate.fullname}</li>
                 <li>{stadium?.name} </li>
               </UL>
             </div>

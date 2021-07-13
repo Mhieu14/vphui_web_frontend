@@ -103,31 +103,26 @@ const Select = styled.select`
   border-radius: 5px;
 `;
 
+const Option = styled.option`
+ 
+`
+
 
 /**
  * Form Matchup Create
  */
-const MatchupCreate = ({ onReload, onCancel }) => {
+const MatchupCreate = ({ teamList = [], onReload, onCancel }) => {
     const [{ auth }] = useStore();
+    const teamListSelectable = teamList.filter(i => i.role === 'admin');
     const [stadiumList, setStadiumList] = useState([]);
-    const [teamList, setTeamList] = useState([]);
     const [teamname, setTeamname] = useState("");
     const [stadiumId, setStadiumId] = useState("");
     const [timeStart, setTimeStart] = useState("");
     const [description, setDescription] = useState("");
 
     useEffect(() => {
-        const p1 = new Promise((resolve, reject) => {
-            sendGet('team/getListTeamsUser', { username: auth.user?.username }).then(rs => resolve(rs?.data?.data));
-        });
-        const p2 = new Promise((resolve, reject) => {
-            sendGet('stadium/getAll').then(rs => resolve(rs?.data?.data));
-        })
-
-        Promise.all([p1, p2]).then(([teams, stadiums]) => {
-            console.log("rs promise", { teams, stadiums })
-            setTeamList(teams);
-            setStadiumList(stadiums);
+        sendGet('stadium/getAll').then(rs => {
+            setStadiumList(rs?.data?.data || [])
         })
     }, [])
 
@@ -180,7 +175,7 @@ const MatchupCreate = ({ onReload, onCancel }) => {
                 <Text>Team</Text>
                 <Select value={teamname} onChange={handleChangeTeam}>
                     <option value="" hidden></option>
-                    {teamList.map(item =>
+                    {teamListSelectable.map(item =>
                         <option key={item.id} value={item.teamname}>{item.fullname}</option>
                     )}
                 </Select>

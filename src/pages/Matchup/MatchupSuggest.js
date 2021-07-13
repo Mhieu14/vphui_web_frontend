@@ -10,33 +10,59 @@ import { Spacing } from 'components/Layout';
 
 
 /**
- * Matchup suggest
+ * Matchup suggestt
  */
-const MatchupAll = () => {
+const MatchSuggest = () => {
     const [{ auth }] = useStore();
     const [loading, setLoading] = useState(true);
     const [matchupList, setMatchupList] = useState([]);
     const [teamList, setTeamList] = useState([]);
 
-    useEffect(() => {
-        getMatchupList();
-        getTeamsByUser();
-    }, [])
 
-    const getTeamsByUser = () => {
-        sendGet('team/getListTeamsUser', { username: auth.user?.username }).then(rs => {
-            setTeamList(rs?.data?.data || []);
+    useEffect(() => {
+        // getMatchupList();
+        // getTeamsByUser();
+        const p1 = new Promise((resolve, reject) => {
+            sendGet('team/getListTeamsUser', { username: auth.user?.username }).then(rs => resolve(rs?.data?.data));
         });
-    }
+        const p2 = new Promise((resolve, reject) => {
+            sendGet('matchup/getAll').then(rs => resolve(rs?.data?.data));
+        })
+
+        Promise.all([p1, p2]).then(([teams, matchups]) => {
+            const currentUserId = auth.user.id;
+            const teamIds = teams.map(item => item.id);
+            console.log("rs promise", { teams, matchups, teamIds })
+
+
+            let matchupData = matchups.filter(item => {
+                if (item.userCreate === currentUserId) return false;
+                if (teamIds.includes(item.teamCreate._id)) return false;
+                return !item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
+            });
+
+            setTeamList(teams);
+            setMatchupList(matchupData.reverse());
+            setLoading(false);
+        })
+    }, [])
 
     const getMatchupList = () => {
         const url = 'matchup/getAll';
         sendGet(url)
             .then(rs => {
-                let { data } = rs.data;
+                const matchups = rs?.data?.data || [];
                 const currentUserId = auth.user.id;
-                data = data.filter(item => item.userCreate !== currentUserId);
-                setMatchupList(data.reverse());
+                const teamIds = teamList.map(item => item.id);
+
+
+                let matchupData = matchups.filter(item => {
+                    if (item.userCreate === currentUserId) return false;
+                    if (teamIds.includes(item.teamCreate._id)) return false;
+                    return !item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
+                });
+
+                setMatchupList(matchupData.reverse());
                 setLoading(false);
             })
             .catch(err => {
@@ -70,4 +96,4 @@ const MatchupAll = () => {
     );
 };
 
-export default MatchupAll;
+export default MatchSuggest;
