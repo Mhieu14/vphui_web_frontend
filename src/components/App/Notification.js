@@ -71,6 +71,7 @@ const Notification = ({ notification, close }) => {
   const [{ auth }] = useStore();
   const client = useApolloClient();
   const ref = React.useRef(null);
+  const { author, follow, like, comment, member, matchup, match } = notification;
 
   useClickOutside(ref, close);
 
@@ -86,51 +87,89 @@ const Notification = ({ notification, close }) => {
           },
           refetchQueries: () => [{ query: GET_AUTH_USER }],
         });
-      } catch (err) {}
+      } catch (err) { }
     };
 
     updateNotificationSeen();
   }, [auth.user.id, auth.user.newNotifications.length, client]);
 
-  if (!notification.follow && !notification.like && !notification.comment) {
-    return null;
+
+  if (member) {
+    const { teamname } = member.team;
+    return (
+      <NotificationItem ref={ref}>
+        <Action>
+          <A to={generatePath(Routes.TEAM_PROFILE, { teamname })}>
+            Bạn được mời với nhóm <b>@{teamname}</b>.
+          </A>
+        </Action>
+      </NotificationItem>
+    )
   }
+
+  if (matchup) {
+    const { teamname } = matchup.teamCreate;
+    return (
+      <NotificationItem ref={ref}>
+        <Action>
+          <A to={generatePath(Routes.MATCHUPHOME)}>
+            Có đội bóng mới quan tâm kèo của nhóm <b>@{teamname}</b>
+          </A>
+        </Action>
+      </NotificationItem>
+    )
+  }
+
+  if (match) {
+    const { teamA, teamB } = match;
+    return (
+      <NotificationItem ref={ref}>
+        <Action>
+          <A to={generatePath(Routes.MATCH)}>
+            Kèo đấu mới được xác nhận cho <b>@{teamA.teamname}</b> và <b>@{teamB.teamname}</b>
+          </A>
+        </Action>
+      </NotificationItem>
+    )
+  }
+
+  if (!follow && !like && !comment) return null;
 
   return (
     <NotificationItem ref={ref}>
       <A
         to={generatePath(Routes.USER_PROFILE, {
-          username: notification.author.username,
+          username: author.username,
         })}
       >
         <LeftSide>
-          <Avatar image={notification.author.image} size={34} />
+          <Avatar image={author.image} size={34} />
 
           <Spacing left="xs" />
 
-          <Name>{notification.author.fullName}</Name>
+          <Name>{author.fullName}</Name>
         </LeftSide>
       </A>
 
-      {notification.follow && <Action>started following you</Action>}
+      {follow && <Action>started following you</Action>}
 
-      {notification.like && (
+      {like && (
         <Action>
           likes your photo
-          <A to={generatePath(Routes.POST, { id: notification.like.post.id })}>
+          <A to={generatePath(Routes.POST, { id: like.post.id })}>
             <PostImage>
-              <Image src={notification.like.post.image} />
+              <Image src={like.post.image} />
             </PostImage>
           </A>
         </Action>
       )}
 
-      {notification.comment && (
+      {comment && (
         <Action>
           commented on your photo
-          <A to={generatePath(Routes.POST, { id: notification.comment.post.id })}>
+          <A to={generatePath(Routes.POST, { id: comment.post.id })}>
             <PostImage>
-              <Image src={notification.comment.post.image} />
+              <Image src={comment.post.image} />
             </PostImage>
           </A>
         </Action>

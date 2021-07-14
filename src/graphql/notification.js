@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 /**
  * Records to select from notifications
  */
+
 const notificationPayload = `
   id
   createdAt
@@ -29,7 +30,33 @@ const notificationPayload = `
       image
     }
   }
+  member {
+    id,
+    team {
+      teamname
+      fullname
+    }
+  }
+  matchup {
+    id
+    teamCreate {
+      teamname
+      fullname
+    }
+  }
+  match {
+    id
+    teamA {
+      teamname
+      fullname
+    }
+    teamB {
+      teamname
+      fullname
+    }
+  }
 `;
+
 
 /**
  * Creates a notification for user

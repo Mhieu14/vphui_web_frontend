@@ -8,6 +8,7 @@ import { sendGet, sendPost } from 'utils/request';
 import { useStore } from 'store';
 import MatchCard from './MatchCard';
 import Empty from 'components/Empty';
+import { Loading } from 'components/Loading';
 
 
 const Root = styled(Container)`
@@ -25,6 +26,7 @@ const Root = styled(Container)`
 const Match = () => {
   const [{ auth }] = useStore();
   const [matchList, setMatchList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getMatchList();
@@ -38,11 +40,14 @@ const Match = () => {
     sendGet(url, param).then(rs => {
       const matchData = rs?.data?.data || [];
       setMatchList(matchData.reverse());
+      setLoading(false);
     })
   }
 
 
   const renderContent = () => {
+    if (loading) return <Loading />;
+
     if (!matchList.length) return <Empty text="Không có lịch sử thi đấu" />
 
     return (
