@@ -7,6 +7,8 @@ import Head from 'components/Head';
 import { sendGet, sendPost } from 'utils/request';
 import { useStore } from 'store';
 import MatchCard from './MatchCard';
+import Empty from 'components/Empty';
+
 
 const Root = styled(Container)`
   margin-top: ${(p) => p.theme.spacing.lg};
@@ -41,6 +43,8 @@ const Match = () => {
 
 
   const renderContent = () => {
+    if (!matchList.length) return <Empty text="Không có lịch sử thi đấu" />
+
     return (
       <Fragment>
         {matchList.map(item =>

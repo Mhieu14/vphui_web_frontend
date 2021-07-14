@@ -367,7 +367,10 @@ const MatchDetail = ({ match, onClose = () => { } }) => {
         &&
         <Buttons>
           <Button onClick={toggleModify}>Cập nhật điểm</Button>
-          <Button onClick={cancelMatch}>Hủy trận đấu</Button>
+          {status !== 'cancelled'
+            &&
+            <Button onClick={cancelMatch}>Hủy trận đấu</Button>
+          }
         </Buttons>
       }
 

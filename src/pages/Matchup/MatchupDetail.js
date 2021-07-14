@@ -147,7 +147,6 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
     };
     sendGet(url, params)
       .then(rs => {
-        console.log("detail again", rs)
         const dataDetail = rs?.data?.data || {};
         setCallRequestCount(callRequestCount + 1);
         setAttentionList(dataDetail.attentions || []);
@@ -190,7 +189,6 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
       matchup_id: _id,
     }
     sendPost(url, null, data).then(rs => {
-      console.log("remove", rs)
       onClose(2);
     })
 
@@ -208,19 +206,16 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
     }
 
     sendPost(url, null, data).then(rs => {
-      console.log("rs create attention", rs.data);
       getAttentionList();
       setIsOpen(false);
     })
   }
 
   const closeAll = () => {
-    console.log("callRequestCount", callRequestCount)
     onClose(callRequestCount);
   }
 
   const renderTeamList = () => {
-    console.log("renderTeamList")
     let teamAttentionIds = attentionList.map(item => item.teamCreate._id);
     teamAttentionIds.push(teamCreate._id);
     const teamListSelectable = teamList.filter(item => !teamAttentionIds.includes(item.id))
@@ -244,7 +239,6 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
     )
   }
 
-  console.log("detail", { matchup, teamList })
   return (
     <Fragment>
 

@@ -150,7 +150,6 @@ const MatchupCreate = ({ teamList = [], onReload, onCancel }) => {
         }
         sendPost(url, null, data)
             .then(rs => {
-                console.log("rs create", rs)
                 onReload();
             })
             .catch(err => {
