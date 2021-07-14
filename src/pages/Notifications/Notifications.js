@@ -8,7 +8,7 @@ import { Loading } from 'components/Loading';
 import Skeleton from 'components/Skeleton';
 import { NOTIFICATIONS_PAGE_NOTIFICATION_LIMIT } from 'constants/DataLimit';
 import { GET_USER_NOTIFICATION } from 'graphql/notification';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStore } from 'store';
 import styled from 'styled-components';
 
@@ -39,7 +39,12 @@ const Notifications = () => {
   const { data, loading, fetchMore, networkStatus } = useQuery(GET_USER_NOTIFICATION, {
     variables,
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: "no-cache"
   });
+
+  // useEffect(()=>{
+
+  // }, [])
 
   const renderContent = () => {
     if (loading && networkStatus === 1) {

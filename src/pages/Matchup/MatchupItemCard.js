@@ -66,7 +66,7 @@ const MatchupItemCard = ({ matchup, teamList = [], reload = () => { } }) => {
   const teamIds = teamList.map(i => i.id);
 
   let styleCustom = {};
-  if (matchup.userCreate === auth.user.id) {
+  if (matchup.userCreate === auth.user.id || matchup.is_my_team_admin_matchup) {
     styleCustom = { borderLeftColor: 'green' };
   } else {
     if (teamIds.includes(matchup.teamCreate._id)) {
