@@ -125,6 +125,7 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
   const [{ auth }] = useStore();
   const { id: currentUserId } = auth.user;
   const { _id, description, stadium, teamCreate, timeStart, userCreate, is_my_team_admin_matchup } = matchup || {};
+  const [userCreateDetail, setUserCreateDetail] = useState({});
   const [year, month, date, hour, minute] = splitTime(timeStart);
   const [isOpen, setIsOpen] = useState(false);
   // const [teamListSelectable, setTeamListSelectable] = useState([]);
@@ -147,8 +148,10 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
     sendGet(url, params)
       .then(rs => {
         console.log("detail again", rs)
+        const dataDetail = rs?.data?.data || {};
         setCallRequestCount(callRequestCount + 1);
-        setAttentionList(rs?.data?.data?.attentions || []);
+        setAttentionList(dataDetail.attentions || []);
+        setUserCreateDetail(dataDetail.userCreate);
         setLoading(false);
       })
       .catch(err => {
@@ -266,7 +269,7 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
             </tr>
             <tr>
               <Td>Thành viên tạo</Td>
-              <Td></Td>
+              <Td>{userCreateDetail.fullName}</Td>
             </tr>
             <tr>
               <Td>Đội quan tâm</Td>

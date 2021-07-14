@@ -68,9 +68,14 @@ const MatchupItemCard = ({ matchup, teamList = [], reload = () => { } }) => {
   let styleCustom = {};
   if (matchup.userCreate === auth.user.id) {
     styleCustom = { borderLeftColor: 'green' };
-  }else{
-    const isAttention = matchup.attentions.some(item => teamIds.includes(item.teamCreate._id));
-    if(isAttention) styleCustom = {borderLeftColor: 'orange'};
+  } else {
+    if (teamIds.includes(matchup.teamCreate._id)) {
+      styleCustom = { borderLeftColor: 'orange' };
+    }
+    else {
+      const isAttention = matchup.attentions.some(item => teamIds.includes(item.teamCreate._id));
+      if (isAttention) styleCustom = { borderLeftColor: 'orange' };
+    }
   }
 
   const selectMatchup = () => {
@@ -84,7 +89,7 @@ const MatchupItemCard = ({ matchup, teamList = [], reload = () => { } }) => {
 
   return (
     <Fragment>
-      <List key={_id} style={{...styleCustom}}>
+      <List key={_id} style={{ ...styleCustom }}>
         <Item onClick={selectMatchup}>
           <B>{description}</B>
           <Flex>

@@ -80,9 +80,10 @@ const TeamsCard = ({ team, role, teamname }) => {
   return (
     <Root>
       <A to={generatePath(Routes.TEAM_PROFILE, { teamname })}>
-        <ImageContainer>
+        {/* <ImageContainer>
           {<InitialLetters color={color}>{splitFullName()}</InitialLetters>}
-        </ImageContainer>
+        </ImageContainer> */}
+        <RenderInitialLetters text={team} />
       </A>
 
       <Spacing top="sm" bottom="xs">
@@ -111,5 +112,35 @@ const TeamsCard = ({ team, role, teamname }) => {
 TeamsCard.propTypes = {
   user: PropTypes.object.isRequired,
 };
+
+const RenderInitialLetters = ({ text = " " }) => {
+  const idColor = text.length % 7;
+  const color = COLOR_MAPPING[idColor];
+
+  // If a fullName contains more word than two, take first two word
+  const splitWords = text.split(' ').slice(0, 2).join(' ');
+  // Take only first letters from split words
+  const firstLetters = splitWords
+    .split(' ')
+    .map((a) => a.charAt(0))
+    .join(' ');
+
+  return (
+    <ImageContainer>
+      {<InitialLetters color={color}>{firstLetters}</InitialLetters>}
+    </ImageContainer>
+  )
+}
+
+const COLOR_MAPPING = {
+  0: 'red',
+  1: 'orange',
+  2: 'pink',
+  3: 'green',
+  4: 'blue',
+  5: 'indigo',
+  6: 'violet'
+}
+
 
 export default TeamsCard;

@@ -5,6 +5,7 @@ import Modal from 'components/Modal';
 import MatchDetail from './MatchDetail';
 import { useStore } from 'store';
 import { splitTime } from 'utils/date';
+import { CloseIcon } from 'components/icons';
 
 
 const List = styled.div`
@@ -41,6 +42,9 @@ const Flex = styled.div`
   &.flex-end{
       justify-content: flex-end;
   }
+  &.space-between{
+    justify-content: space-between;
+  }
 `
 const FlexItem = styled.div`
   align-self: center;
@@ -62,6 +66,16 @@ const FlexItem = styled.div`
   }
   &.mr-xs{
     margin-right: 5px;
+  }
+  &.pl-xs{
+    padding-left: 20px;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  &.pr-xs{
+    padding-right: 20px;
+    font-size: 40px;
+    font-weight: bold;
   }
 `;
 
@@ -97,87 +111,165 @@ const Teamname = styled.div`
 `;
 
 
+const StatusCancel = styled.div`
+  padding: 10px;
+  border-radius: 20px;
+  background: red;
+  color: white;
+  font-weight: bold;
+`;
+
+
 const MatchCard = ({ match, reload = () => { } }) => {
-    const [{ auth }] = useStore();
-    const { status, teamA, teamB, stadium, timeStart } = match;
-    const [year, month, date, hour, minute] = splitTime(timeStart);
+  // const [{ auth }] = useStore();
+  const {
+    timeStart,
+    status,
+    teamA,
+    teamB,
+    teamAGoalUpdateByA,
+    teamBGoalUpdateByA,
+    teamAGoalUpdateByB,
+    teamBGoalUpdateByB,
+    isAdmin
+  } = match || {};
+  const [year, month, date, hour, minute] = splitTime(timeStart);
 
-    console.log("match", match)
-    const [isOpen, setIsOpen] = useState(false);
+  const [aDisplay, bDisplay] = getGoalsDisplay(
+    teamAGoalUpdateByA,
+    teamBGoalUpdateByA,
+    teamAGoalUpdateByB,
+    teamBGoalUpdateByB,
+    status
+  );
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-    }
+  const [isOpen, setIsOpen] = useState(false);
 
-    return (
+  const toggleModal = () => {
+    setIsOpen(true);
+  }
+
+  const handleClose = (p) => {
+    if (p > 0) reload();
+    setIsOpen(false);
+  }
+
+  const renderByStatus = () => {
+    switch (status) {
+      case 'finished': return <h2>VS</h2>;
+      case 'cancelled': return (
+        <StatusCancel>
+          {/* <CloseIcon color="white" /> */}
+          cancelled
+        </StatusCancel>
+      )
+      default: return (
         <Fragment>
-            <List>
-                <Item onClick={toggleModal}>
-                    <Flex>
-                        <FlexItem className="col1">
-                            <Flex className="flex-end">
-                                <FlexItem className="mr-xs">
-                                    <Fullname>{teamA.fullname}</Fullname>
-                                    <Teamname>@{teamA.teamname}</Teamname>
-                                </FlexItem>
-                                <FlexItem>
-                                    <RenderInitialLetters text={teamA.fullname} />
-                                </FlexItem>
-                            </Flex>
-                        </FlexItem>
-                        <FlexItem className="col2">
-                            <b>{date}/{month}/{year}</b>
-                            <div>{hour}:{minute}</div>
-                        </FlexItem>
-                        <FlexItem className="col3">
-                            <Flex>
-                                <FlexItem>
-                                    <RenderInitialLetters text={teamB.fullname} />
-                                </FlexItem>
-                                <FlexItem className="ml-xs">
-                                    <Fullname>{teamB.fullname}</Fullname>
-                                    <Teamname>@{teamB.teamname}</Teamname>
-                                </FlexItem>
-                            </Flex>
-                        </FlexItem>
-                    </Flex>
-                </Item>
-            </List>
-            <Modal open={isOpen} onClose={toggleModal}>
-                {/* <MatchupDetail matchup={matchup} teamList={teamList} onClose={toggleModal} /> */}
-                model
-            </Modal>
+          <div><b style={{ color: 'green' }}>{date}/{month}/{year}</b></div>
+          <div style={{ color: 'green' }}>{hour}:{minute}</div>
         </Fragment>
-    )
+      )
+    }
+  }
+
+  return (
+    <Fragment>
+      <List>
+        <Item onClick={toggleModal}>
+          <Flex>
+            <FlexItem className="col1">
+              <Flex className="flex-end">
+                <FlexItem className="mr-xs">
+                  <Fullname>{teamA.fullname}</Fullname>
+                  <Teamname>@{teamA.teamname}</Teamname>
+                </FlexItem>
+                <FlexItem>
+                  <RenderInitialLetters text={teamA.fullname} />
+                </FlexItem>
+              </Flex>
+            </FlexItem>
+            <FlexItem className="col2">
+              <Flex className="space-between">
+                <FlexItem className="pl-xs">{aDisplay}</FlexItem>
+                <FlexItem>
+                  {renderByStatus()}
+                </FlexItem>
+                <FlexItem className="pr-xs">{bDisplay}</FlexItem>
+              </Flex>
+            </FlexItem>
+            <FlexItem className="col3">
+              <Flex>
+                <FlexItem>
+                  <RenderInitialLetters text={teamB.fullname} />
+                </FlexItem>
+                <FlexItem className="ml-xs">
+                  <Fullname>{teamB.fullname}</Fullname>
+                  <Teamname>@{teamB.teamname}</Teamname>
+                </FlexItem>
+              </Flex>
+            </FlexItem>
+          </Flex>
+        </Item>
+      </List>
+      <Modal open={isOpen} onClose={() => { }}>
+        <MatchDetail match={match} matchup={{}} teamList={[]} onClose={handleClose} />
+      </Modal>
+    </Fragment>
+  )
 };
 
+
+/**
+ * aa: goal A update by A
+ * ba: goal B update by A
+ * ab: goal A update by B
+ * bb: goal B update by B
+ */
+const getGoalsDisplay = (aa, ba, ab, bb, status) => {
+  if (status !== 'finished') return ["", ""];
+
+  const getValidValue = (a, b) => {
+    if (a === b) {
+      if (a == undefined) return "?";
+      return a;
+    } else {
+      if (![a, b].includes(undefined)) return "?";
+      if (a === undefined) return b;
+      return a
+    }
+  }
+  const goalA = getValidValue(aa, ab);
+  const goalB = getValidValue(ba, bb);
+  return [goalA, goalB];
+}
+
 const RenderInitialLetters = ({ text = " " }) => {
-    const idColor = text.length % 7;
-    const color = COLOR_MAPPING[idColor];
+  const idColor = text.length % 7;
+  const color = COLOR_MAPPING[idColor];
 
-    // If a fullName contains more word than two, take first two word
-    const splitWords = text.split(' ').slice(0, 2).join(' ');
-    // Take only first letters from split words
-    const firstLetters = splitWords
-        .split(' ')
-        .map((a) => a.charAt(0))
-        .join(' ');
+  // If a fullName contains more word than two, take first two word
+  const splitWords = text.split(' ').slice(0, 2).join(' ');
+  // Take only first letters from split words
+  const firstLetters = splitWords
+    .split(' ')
+    .map((a) => a.charAt(0))
+    .join(' ');
 
-    return (
-        <ImageContainer>
-            {<InitialLetters color={color}>{firstLetters}</InitialLetters>}
-        </ImageContainer>
-    )
+  return (
+    <ImageContainer>
+      {<InitialLetters color={color}>{firstLetters}</InitialLetters>}
+    </ImageContainer>
+  )
 }
 
 const COLOR_MAPPING = {
-    0: 'red',
-    1: 'orange',
-    2: 'yellow',
-    3: 'green',
-    4: 'blue',
-    5: 'indigo',
-    6: 'violet'
+  0: 'red',
+  1: 'orange',
+  2: 'pink',
+  3: 'green',
+  4: 'blue',
+  5: 'indigo',
+  6: 'violet'
 }
 
 export default MatchCard;

@@ -136,7 +136,12 @@ const MemberCard = ({ user, isAdmin, removeUser, markAdmin }) => {
     <Root>
       <A to={generatePath(Routes.USER_PROFILE, { username })}>
         <ImageContainer>
-          {image ? <Image src={image} /> : <InitialLetters color={color}>{splitFullName()}</InitialLetters>}
+          {image
+            ?
+            <Image src={image} />
+            :
+            <RenderInitialLetters text={fullname} />
+          }
         </ImageContainer>
       </A>
 
@@ -173,5 +178,33 @@ const MemberCard = ({ user, isAdmin, removeUser, markAdmin }) => {
   );
 };
 
+const RenderInitialLetters = ({ text = " " }) => {
+  const idColor = text.length % 7;
+  const color = COLOR_MAPPING[idColor];
+
+  // If a fullName contains more word than two, take first two word
+  const splitWords = text.split(' ').slice(0, 2).join(' ');
+  // Take only first letters from split words
+  const firstLetters = splitWords
+    .split(' ')
+    .map((a) => a.charAt(0))
+    .join(' ');
+
+  return (
+    <ImageContainer>
+      {<InitialLetters color={color}>{firstLetters}</InitialLetters>}
+    </ImageContainer>
+  )
+}
+
+const COLOR_MAPPING = {
+  0: 'red',
+  1: 'orange',
+  2: 'pink',
+  3: 'green',
+  4: 'blue',
+  5: 'indigo',
+  6: 'violet'
+}
 
 export default MemberCard;

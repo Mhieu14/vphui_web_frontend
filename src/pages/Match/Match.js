@@ -44,7 +44,7 @@ const Match = () => {
     return (
       <Fragment>
         {matchList.map(item =>
-          <MatchCard key={item._id} match={item} />
+          <MatchCard key={item._id} match={item} reload={getMatchList} />
         )}
       </Fragment>
     );

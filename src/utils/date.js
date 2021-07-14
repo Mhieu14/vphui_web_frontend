@@ -58,7 +58,7 @@ export const currentDate = (unixTimestamp) => {
 };
 
 export const splitTime = (dateStr) => {
-  let dt = dateStr.replace('.000Z', '');
+  let dt = dateStr?.replace('.000Z', '');
   dt = new Date(dt);
   if (dt === 'Invalid Date') dt = new Date();
   const date = (dt.getDate()).toString().padStart(2, '0');
