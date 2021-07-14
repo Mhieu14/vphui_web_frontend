@@ -1,7 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import Avatar from 'components/Avatar';
 import { Spacing } from 'components/Layout';
-import { A } from 'components/Text';
+import { A, A2 } from 'components/Text';
 import { UPDATE_NOTIFICATION_SEEN } from 'graphql/notification';
 import { GET_AUTH_USER } from 'graphql/user';
 import { useClickOutside } from 'hooks/useClickOutside';
@@ -99,9 +99,9 @@ const Notification = ({ notification, close }) => {
     return (
       <NotificationItem ref={ref}>
         <Action>
-          <A to={generatePath(Routes.TEAM_PROFILE, { teamname })}>
+          <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname })}>
             Bạn được mời với nhóm <b>@{teamname}</b>.
-          </A>
+          </A2>
         </Action>
       </NotificationItem>
     )
@@ -112,9 +112,9 @@ const Notification = ({ notification, close }) => {
     return (
       <NotificationItem ref={ref}>
         <Action>
-          <A to={generatePath(Routes.MATCHUPHOME)}>
+          <A2 to={generatePath(Routes.MATCHUPHOME)}>
             Có đội bóng mới quan tâm kèo của nhóm <b>@{teamname}</b>
-          </A>
+          </A2>
         </Action>
       </NotificationItem>
     )
@@ -125,9 +125,9 @@ const Notification = ({ notification, close }) => {
     return (
       <NotificationItem ref={ref}>
         <Action>
-          <A to={generatePath(Routes.MATCH)}>
+          <A2 to={generatePath(Routes.MATCH)}>
             Kèo đấu mới được xác nhận cho <b>@{teamA.teamname}</b> và <b>@{teamB.teamname}</b>
-          </A>
+          </A2>
         </Action>
       </NotificationItem>
     )
