@@ -131,7 +131,7 @@ const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
           isAdmin={isAdmin}
         />
       )
-      case 'matchup': return <MatchupList teamname={team.teamname} />;
+      case 'matchup': return <MatchupList teamname={team.teamname} user={user} />;
       default: return (
         <MatchList
           user={user}

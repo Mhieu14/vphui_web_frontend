@@ -6,17 +6,23 @@ import MatchupItemCard from 'pages/Matchup/MatchupItemCard';
 import { Loading } from 'components/Loading';
 
 
-const MatchupList = ({ teamname }) => {
+const MatchupList = ({ teamname, user }) => {
     const [matchupList, setMatchupList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [teamList, setTeamList] = useState([]);
 
     useEffect(() => {
         getMatchupList();
+        sendGet('team/getListTeamsUser', { username: user?.username })
+        .then(rs => {
+            console.log("team list", rs.data.data)
+            setTeamList(rs?.data?.data || []);
+        });
+
     }, [])
 
     const getMatchupList = () => {
         sendGet('matchup/getListMatchupTeam', { teamname }).then(rs => {
-            console.log("teamname", rs.data.data)
             setMatchupList(rs?.data?.data || []);
             setLoading(false);
         });
@@ -29,7 +35,7 @@ const MatchupList = ({ teamname }) => {
             {matchupList?.length
                 ?
                 matchupList.map(item =>
-                    <MatchupItemCard matchup={item} key={item._id} reload={getMatchupList} />
+                    <MatchupItemCard key={item._id} teamList={teamList} matchup={item} reload={getMatchupList} />
                 )
                 :
                 <Empty text="Chưa có Kèo" />
