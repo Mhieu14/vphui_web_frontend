@@ -2,19 +2,18 @@ import React, { Fragment } from 'react';
 import { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import Empty from 'components/Empty';
-import { A } from 'components/Text';
 import { Button } from 'components/Form';
-import { useStore } from 'store';
+// import { useStore } from 'store';
 import Modal from 'components/Modal';
 import { CloseIcon } from 'components/icons';
 import { sendPost, sendGet } from 'utils/request';
 import { EmptyIcon } from 'components/icons';
 import { Loading } from 'components/Loading';
 import { splitTime } from 'utils/date';
+import { generatePath } from 'react-router-dom';
+import { A2, ANewSite } from 'components/Text';
+import * as Routes from 'routes';
 
-const LI = styled.li`
-  color: ${(p) => p.theme.colors.error.main};
-`
 
 const Buttons = styled.div`
   margin-top: 20px;
@@ -122,9 +121,9 @@ const Item = styled.div`
 `
 
 const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
-  const [{ auth }] = useStore();
-  const { id: currentUserId } = auth.user;
-  const { _id, description, stadium, teamCreate, timeStart, userCreate, is_my_team_admin_matchup } = matchup || {};
+  // const [{ auth }] = useStore();
+  // const { id: currentUserId } = auth.user;
+  const { _id, description, stadium, teamCreate, timeStart, is_my_team_admin_matchup } = matchup || {};
   const [userCreateDetail, setUserCreateDetail] = useState({});
   const [year, month, date, hour, minute] = splitTime(timeStart);
   const [isOpen, setIsOpen] = useState(false);
@@ -147,6 +146,7 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
     };
     sendGet(url, params)
       .then(rs => {
+        console.log("detail", rs.data.data)
         const dataDetail = rs?.data?.data || {};
         setCallRequestCount(callRequestCount + 1);
         setAttentionList(dataDetail.attentions || []);
@@ -251,11 +251,17 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
           <tbody>
             <tr>
               <Td>Địa điểm</Td>
-              <Td>{stadium?.name}</Td>
+              <Td>
+                <ANewSite href={stadium.url} target="_blank">{stadium?.name}</ANewSite>
+              </Td>
             </tr>
             <tr>
               <Td>Đội mở kèo</Td>
-              <Td>{teamCreate?.fullname}</Td>
+              <Td>
+                <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname: teamCreate.teamname })} target="_blank" >
+                  @{teamCreate?.teamname}
+                </A2>
+              </Td>
             </tr>
             <tr>
               <Td>Thời gian bắt đầu</Td>
@@ -263,7 +269,16 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
             </tr>
             <tr>
               <Td>Thành viên tạo</Td>
-              <Td>{userCreateDetail.fullName}</Td>
+              <Td>
+                {userCreateDetail?.username
+                  ?
+                  <A2 to={generatePath(Routes.USER_PROFILE, { username: userCreateDetail?.username })} target="_blank" >
+                    {userCreateDetail.fullName}
+                  </A2>
+                  :
+                  <Loading />
+                }
+              </Td>
             </tr>
             <tr>
               <Td>Đội quan tâm</Td>
@@ -277,7 +292,9 @@ const MatchupDetail = ({ matchup, teamList = [], onClose = () => { } }) => {
                       <Fragment key={item._id}>
                         <Flex>
                           <FlexItem>
-                            @{item.teamCreate.teamname}
+                            <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname: item.teamCreate.teamname })} target="_blank" >
+                              @{item.teamCreate.teamname}
+                            </A2>
                           </FlexItem>
 
                           <FlexItem>

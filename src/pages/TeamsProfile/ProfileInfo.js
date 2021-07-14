@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link, generatePath } from 'react-router-dom';
-import { useSubscription } from '@apollo/client';
-import PostList from './PostList';
+// import { Link, generatePath } from 'react-router-dom';
+// import { useSubscription } from '@apollo/client';
+import MatchList from './MatchList';
 import MemberList from './MemberList';
 
-import { IS_USER_ONLINE_SUBSCRIPTION } from 'graphql/user';
+// import { IS_USER_ONLINE_SUBSCRIPTION } from 'graphql/user';
 
 // import { H1 } from 'components/Text';
-import { Spacing } from 'components/Layout';
-import Follow from 'components/Follow';
-import ProfileImageUpload from './ProfileImageUpload';
+// import { Spacing } from 'components/Layout';
+// import Follow from 'components/Follow';
+// import ProfileImageUpload from './ProfileImageUpload';
 import ProfileCoverUpload from './ProfileCoverUpload';
 
-import { useStore } from 'store';
-
-import * as Routes from 'routes';
+// import { useStore } from 'store';
+import MatchupList from './MatchupList';
+// import * as Routes from 'routes';
 
 const Root = styled.div`
   display: flex;
@@ -131,10 +131,11 @@ const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
           isAdmin={isAdmin}
         />
       )
+      case 'matchup': return <MatchupList teamname={team.teamname} />;
       default: return (
-        <PostList
+        <MatchList
           user={user}
-          team={team}
+          teamname={team.teamname}
           isAdmin={isAdmin}
         />
       )
@@ -148,23 +149,21 @@ const ProfileInfo = ({ user, team, joined, isAdmin, reloadTeamInfo }) => {
         <H1>{team.fullname}</H1>
         <H5><b>@{team.teamname}</b> · {team.member.length} thành viên</H5>
         <HR />
-        {joined
-          ?
           <Info>
-             <List className={tab === 'members' ? 'active' : ''} onClick={changeTab.bind(this, 'members')}>
+            <List className={tab === 'members' ? 'active' : ''} onClick={changeTab.bind(this, 'members')}>
               <b>Thành viên</b>
             </List>
-            <List className={tab === 'posts' ? 'active' : ''} onClick={changeTab.bind(this, 'posts')}>
+            <List className={tab === 'matchup' ? 'active' : ''} onClick={changeTab.bind(this, 'matchup')}>
+              <b>Danh sách kèo</b>
+            </List>
+            <List className={tab === 'match' ? 'active' : ''} onClick={changeTab.bind(this, 'match')}>
               <b>Lịch sử thi đấu</b>
             </List>
           </Info>
-          :
-          null
-        }
       </Wrapper>
       <br />
 
-      {joined && renderTab()}
+      {renderTab()}
     </Root>
   );
 };

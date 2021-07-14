@@ -97,7 +97,8 @@ const MatchupMyself = () => {
       .then(rs => {
         let { data } = rs.data;
         const currentUserId = auth.user.id;
-        data = data.filter(item => item.userCreate === currentUserId || item.is_my_team_admin_matchup);
+        // data = data.filter(item => item.userCreate === currentUserId || item.is_my_team_admin_matchup);
+        data = data.filter(item => item.is_my_team_admin_matchup);
         setMatchupList(data.reverse());
         setIsOpen(false);
         setLoading(false);

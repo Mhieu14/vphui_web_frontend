@@ -86,7 +86,7 @@ const CreateComment = ({ post, focus }) => {
         weight="bold"
         text
         ref={buttonEl}
-        disabled={!comment || loading}
+        disabled={!comment.trim() || loading}
       >
         Đăng
       </Button>

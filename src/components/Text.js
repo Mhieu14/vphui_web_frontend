@@ -53,3 +53,32 @@ export const H2 = styled.h2`
 export const H3 = styled.h3`
   ${getHeadingStyles((p) => p.theme.font.size.xs)};
 `;
+
+
+export const A2 = styled(Link)`
+  text-decoration: none;
+  transition: color 0.1s;
+  display: inline-block;
+  color: black;
+  // color: ${(p) => (p.color ? p.theme.colors[p.color] : p.theme.colors.text.secondary)};
+  // font-weight: ${(p) => (p.weight ? p.theme.font.weight[p.weight] : p.theme.font.weight.normal)};
+  // font-size: ${(p) => (p.size ? p.theme.font.size[p.size] : p.theme.font.size.xs)};
+
+  &:hover {
+    color: ${(p) => p.theme.colors.primary.main};
+  }
+`;
+
+export const ANewSite = styled.a`
+  text-decoration: none;
+  transition: color 0.1s;
+  display: inline-block;
+  color: black;
+  // color: ${(p) => (p.color ? p.theme.colors[p.color] : p.theme.colors.text.secondary)};
+  // font-weight: ${(p) => (p.weight ? p.theme.font.weight[p.weight] : p.theme.font.weight.normal)};
+  // font-size: ${(p) => (p.size ? p.theme.font.size[p.size] : p.theme.font.size.xs)};
+
+  &:hover {
+    color: ${(p) => p.theme.colors.primary.main};
+  }
+`;

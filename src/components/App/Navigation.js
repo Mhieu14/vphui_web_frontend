@@ -1,4 +1,4 @@
-import { EnvelopeIcon, ExploreIcon, HomeIcon, NotificationIcon, PeopleIcon } from 'components/icons';
+import { EnvelopeIcon, ExploreIcon, HomeIcon, NotificationIcon, PeopleIcon, TeamIcon, MatchupIcon, HistoryIcon } from 'components/icons';
 import React from 'react';
 import { generatePath, NavLink } from 'react-router-dom';
 import * as Routes from 'routes';
@@ -94,21 +94,21 @@ const Navigation = () => {
 
       <Link exact activeClassName="selected" to={Routes.TEAMS}>
         <ListItem>
-          <PeopleIcon width={18} />
+          <TeamIcon width={18} />
           <Name>Đội bóng</Name>
         </ListItem>
       </Link>
 
       <Link exact activeClassName="selected" to={Routes.MATCHUPHOME}>
         <ListItem>
-          <PeopleIcon width={18} />
+          <MatchupIcon width={18} />
           <Name>Lập kèo</Name>
         </ListItem>
       </Link>
 
       <Link exact activeClassName="selected" to={Routes.MATCH}>
         <ListItem>
-          <PeopleIcon width={18} />
+          <HistoryIcon width={18} />
           <Name>Lịch sử thi đấu</Name>
         </ListItem>
       </Link>

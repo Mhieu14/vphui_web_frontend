@@ -24,3 +24,6 @@ export { EnvelopeOpenIcon } from './EnvelopeOpenIcon';
 export { SendIcon } from './SendIcon';
 export { PencilIcon } from './PencilIcon';
 export { PinMapIcon } from './PinMapIcon';
+export { TeamIcon } from './TeamIcon';
+export { HistoryIcon } from './HistoryIcon';
+export { MatchupIcon } from './MatchupIcon';

@@ -122,7 +122,7 @@ const MessagesChatConversation = ({ messages, authUser, chatUser, data, match })
   const sendMessage = (e) => {
     e.preventDefault();
 
-    if (!messageText) return;
+    if (!messageText.trim()) return;
 
     setMessageText('');
     createMessage({

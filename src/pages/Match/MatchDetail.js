@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { useState, useEffect } from 'react'
 import styled from 'styled-components';
 // import Empty from 'components/Empty';
-import { A } from 'components/Text';
 import { Button } from 'components/Form';
 // import { useStore } from 'store';
 // import Modal from 'components/Modal';
@@ -10,7 +9,9 @@ import { CloseIcon } from 'components/icons';
 import { sendPost, sendGet } from 'utils/request';
 import { splitTime } from 'utils/date';
 import { Spacing } from 'components/Layout';
-
+import { generatePath } from 'react-router-dom';
+import { A2, ANewSite } from 'components/Text';
+import * as Routes from 'routes';
 
 const Buttons = styled.div`
   margin-top: 20px;
@@ -331,7 +332,11 @@ const MatchDetail = ({ match, onClose = () => { } }) => {
             <FlexItem className="col1">
               <Flex className="flex-end">
                 <FlexItem className="mr-xs">
-                  <Fullname>{teamA.fullname}</Fullname>
+                  <Fullname>
+                    <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname: teamA.teamname })} target="_blank" >
+                      {teamA.fullname}
+                    </A2>
+                  </Fullname>
                   <Teamname>@{teamA.teamname}</Teamname>
                 </FlexItem>
                 <FlexItem>
@@ -354,7 +359,11 @@ const MatchDetail = ({ match, onClose = () => { } }) => {
                   <RenderInitialLetters text={teamB.fullname} />
                 </FlexItem>
                 <FlexItem className="ml-xs">
-                  <Fullname>{teamB.fullname}</Fullname>
+                  <Fullname>
+                    <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname: teamB.teamname })} target="_blank" >
+                      {teamB.fullname}
+                    </A2>
+                  </Fullname>
                   <Teamname>@{teamB.teamname}</Teamname>
                 </FlexItem>
               </Flex>
@@ -419,7 +428,9 @@ const MatchDetail = ({ match, onClose = () => { } }) => {
               </tr>
               <tr>
                 <Td>{date}/{month}/{year} {hour}:{minute}</Td>
-                <Td>{stadium?.name}</Td>
+                <Td>
+                  <ANewSite href={stadium.url} target="_blank">{stadium?.name}</ANewSite>
+                </Td>
                 <Td>{status}</Td>
               </tr>
             </tbody>
@@ -435,12 +446,20 @@ const MatchDetail = ({ match, onClose = () => { } }) => {
               </tr>
               <tr>
                 <Td className="goal">{teamAGoalUpdateByA}</Td>
-                <Td>@{teamA.teamname} (A)</Td>
+                <Td>
+                  <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname: teamA.teamname })} target="_blank" >
+                    @{teamA.teamname}
+                  </A2> (A)
+                </Td>
                 <Td className="goal">{teamBGoalUpdateByA}</Td>
               </tr>
               <tr>
                 <Td className="goal">{teamAGoalUpdateByB}</Td>
-                <Td>@{teamB.teamname} (B)</Td>
+                <Td>
+                  <A2 to={generatePath(Routes.TEAM_PROFILE, { teamname: teamB.teamname })} target="_blank" >
+                    @{teamB.teamname}
+                  </A2> (B)
+                </Td>
                 <Td className="goal">{teamBGoalUpdateByB}</Td>
               </tr>
             </tbody>

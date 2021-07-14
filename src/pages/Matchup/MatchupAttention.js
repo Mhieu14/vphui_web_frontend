@@ -29,7 +29,8 @@ const MatchupAttention = () => {
             const teamIds = teams.map(item => item.id);
 
             let matchupData = matchups.filter(item => {
-                if (item.userCreate === currentUserId) return false;
+                // if (item.userCreate === currentUserId) return false;
+                if (item.is_my_team_admin_matchup) return false;
                 if (teamIds.includes(item.teamCreate._id)) return true;
                 return item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
             });
@@ -50,7 +51,8 @@ const MatchupAttention = () => {
 
 
                 let matchupData = matchups.filter(item => {
-                    if (item.userCreate === currentUserId) return false;
+                    // if (item.userCreate === currentUserId) return false;
+                    if (item.is_my_team_admin_matchup) return false;
                     if (teamIds.includes(item.teamCreate._id)) return true;
                     return item.attentions.some(elm => teamIds.includes(elm.teamCreate._id))
                 });
