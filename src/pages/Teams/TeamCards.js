@@ -109,10 +109,6 @@ const TeamsCard = ({ team, role, teamname }) => {
   );
 };
 
-TeamsCard.propTypes = {
-  user: PropTypes.object.isRequired,
-};
-
 const RenderInitialLetters = ({ text = " " }) => {
   const idColor = text.length % 7;
   const color = COLOR_MAPPING[idColor];

@@ -120,7 +120,7 @@ const Home = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{minHeight: '500px'}}>
       <Head />
 
       <Spacing top="lg" />

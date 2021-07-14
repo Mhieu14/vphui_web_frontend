@@ -84,16 +84,29 @@ const List = styled.div`
     padding: 0 ${(p) => p.theme.spacing.lg};
   }
 `;
-
+const Nav = styled.div`
+  cursor: pointer;
+  &.active{
+    color: ${(p) => p.theme.colors.primary.main};
+    pointer-events: none;
+  }
+  &:hover{
+    color: ${(p) => p.theme.colors.primary.main};
+  }
+`
 /**
  * Renders user information in profile page
  */
-const ProfileInfo = ({ user }) => {
+const ProfileInfo = ({ user, teams, nav, changeNav = () => { } }) => {
   const [{ auth }] = useStore();
 
   const { data, loading } = useSubscription(IS_USER_ONLINE_SUBSCRIPTION, {
     variables: { authUserId: auth.user.id, userId: user.id },
   });
+
+  const selectNav = (type) => {
+    changeNav(type);
+  }
 
   let isUserOnline = user.isOnline;
   if (!loading && data) {
@@ -130,7 +143,14 @@ const ProfileInfo = ({ user }) => {
 
       <Info>
         <List>
-          <b>{user.posts.length} </b> hoạt động
+          <Nav onClick={selectNav.bind(this, 'actions')} className={nav === 'actions' && 'active'}>
+            <b>{user.posts.length} </b> hoạt động
+          </Nav>
+        </List>
+        <List>
+          <Nav onClick={selectNav.bind(this, 'teams')} className={nav === 'teams' && 'active'}>
+            <b>{teams.length} </b> đội bóng
+          </Nav>
         </List>
         <List>
           <b>{user.followers.length} </b> người theo dõi
